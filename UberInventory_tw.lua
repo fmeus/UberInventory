@@ -3,9 +3,6 @@
     All strings (Chinese Traditional) used by UberInventory.
     2008/10/23 Translated by Jamesz (zjames.tw dot gmail dot com)
     2010/01/03 Updated translations by spring64783 (curse.com)
-
-    Revision:
-        $Id: UberInventory_tw.lua 745 2013-01-29 09:51:44Z fmeus_lgs $
     ================================================================= --]]
 
 -- Strings used within UberInventory

@@ -1,9 +1,6 @@
 --[[ =================================================================
     Description:
         Data broker plugin.
-
-    Revision:
-        $Id: Broker_UberInventory.lua 763 2013-02-04 20:42:24Z fmeus_lgs $
     ================================================================= --]]
 
 -- Local variables

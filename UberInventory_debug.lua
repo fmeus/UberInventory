@@ -1,4 +1,3 @@
-  --[[ Revision: $Id: UberInventory_debug.lua 745 2013-01-29 09:51:44Z fmeus_lgs $ --]]
 -- Define overloading functions
 --    EventTracker_TrackProc( "HighlightOff", { "frame" } );
 --    EventTracker_TrackProc( "HighlightOn", { "frame" } );

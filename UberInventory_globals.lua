@@ -1,9 +1,6 @@
 --[[ =================================================================
     Description:
         All globals used within UberInventory.
-
-    Revision:
-        $Id: UberInventory_globals.lua 763 2013-02-04 20:42:24Z fmeus_lgs $
     ================================================================= --]]
 
 -- Colors used within UberInventory

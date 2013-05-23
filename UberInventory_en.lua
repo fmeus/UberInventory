@@ -1,9 +1,6 @@
 --[[ =================================================================
     Description:
         All strings (English) used by UberInventory.
-
-    Revision:
-        $Id: UberInventory_en.lua 764 2013-02-04 21:55:02Z fmeus_lgs $
     ================================================================= --]]
 
 -- Strings used within UberInventory

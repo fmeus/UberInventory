@@ -1,6 +1,3 @@
-<!--
-  Revision: $Id: Bindings.xml 745 2013-01-29 09:51:44Z fmeus_lgs $
--->
 <Bindings>
     <Binding name="TOGGLEUBI" header="UBI">
         UberInventory_Toggle_Main();
