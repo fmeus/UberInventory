@@ -1,0 +1,351 @@
+Version 6.5 - May 22, 2013
+- Changed: Updated for 5.3.0
+
+Version 6.4 - March 6, 2013
+- Fixed: Occasional error when performing repair using GB funds
+- Added: Option to show AH buyout prices (when addon like Auctioneer, AuctionLite is installed)
+- Changed: Moved all images to artwork folder
+- Changed: Updated for 5.2.0
+
+Version 6.3 - January 9, 2013
+- Changed: Improved tracking of items and cash. Things should be back in working order.
+
+Version 6.2 - December 19, 2012
+NOTE: The setting for 'Show item count info' will be reset to true/yes
+- Fixed: Resolved issues where item counts would not be displayed in tooltips (#15)
+- Fixed: Item data was not being stored correct between sessions
+
+Version 6.1 - December 1, 2012
+- Changed: Updated for 5.1.0
+- Added: Option to prevent tracking guild bank data (per character setting)
+- Added: Right-click on reset button resets all filter and defaults to 'All items'
+- Fixed: Issue with options dialog resolved
+
+Version 6.0 - November 7, 2012
+- Added: Data broker showing the same info as the minimap tooltip
+- Fixed: Resolved some guild bank related issues
+- Fixed: Mouse wheel scrolling direction corrected
+
+Version 5.9 - September 12, 2012
+- Changed: Minor UI changes
+- Fixed: Issue with voidstorage (#13 and based on comments)
+
+Version 5.8 - September 2, 2012
+- Fixed: Taint issue with Glyph UI (#11)
+- Changed: Further improvements to guild bank
+
+Version 5.7 - September 2, 2012
+- Fixed: Issues related to guild bank data (continued...)
+
+Version 5.6 - August 31, 2012
+- Fixed: Issues related to guild bank data
+- Changed: Updated list of tracked currencies
+
+Version 5.5 - August 30, 2012
+- Fixed: WoW client would hang/crash when opening the guild bank
+
+Version 5.4 - August 29, 2012
+- Fixed: Corrected call to GetInventorySlotInfo
+
+Version 5.3 - August 28, 2012
+- Changed: Updated for 5.0.4
+
+Version 5.2 - August 6, 2012
+- Fixed: Updated to support MoP as well
+
+Version 5.1 - June 9, 2012
+- Fixed: Guild bank data was being distributed even when no other guild members were online
+
+Version 5.0 - April 9, 2012
+- Fixed: Resolved issue when guildmate would come online
+- Fixed: Improved handling of void storage information with partial upgraded local data (Ticket #9)
+
+Version 4.9.1 - February 26, 2012
+- Fixed: Issue with failed upgrade of stored data (Ticket #8)
+
+Version 4.9 - December 15, 2011
+- Added: Darkmoon Prize Tickets are now also being tracked
+- Added: Void Storage is now also being tracked
+- Added: Enabled mouse wheel scrolling
+
+Version 4.8 - December 3, 2011
+- Added: New setting allowing you to hide item counts within tooltips (user request)
+- Changed: Updated for 4.3
+
+Version 4.7 - June 30, 2011
+- Fixed: Added missing help information for new commands added in version 4.4
+- Changed: Updated for 4.2 (Removed all keyring related code, data, etc)
+
+Version 4.6 - May 30, 2011
+- Fixed: Resolved issue when upgrade from very old versions of UberInventory failed (Ticket #7)
+- Changed: Handling of default values changed/updated
+
+Version 4.5 - May 15, 2011
+- Added: Tracking for Fireland currencies (Mark of the World Tree)
+
+Version 4.4 - May 8, 2011
+- Changed: Width of location dropdown list increased (decreased width of searchbox)
+- Changed: Instead of faction flag the class icon is displayed for alts within location dropdown list
+- Changed: Removed obsolete code
+- Added: Character level is now being monitored and displayed within location dropdown list
+- Added: New chat command to forcibly send out guildbank data to other online guild members using UberInventory
+- Added: New chat command to request guildbank data from other online guild members (they obviously need to be using UberInventory as well)
+
+Version 4.3 - April 27, 2011
+- Fixed: Fixed issue related to Bagnon cutting out the standard Guildbank UI code
+- Fixed: Prevent "You don't have permission to do that"-warnings when accessing the guild bank with limited access
+- Fixed: Decreased size of minimap icon, causes the client to freeze while loading (4.1 only)
+- Changed: Mailbox cash now also shown when the option 'Take inbox money' is turned on
+- Changed: Updated for 4.1 (RegisterAddonMessagePrefix, TOC)
+
+Version 4.2 - December 16, 2010
+- Added: Tol Barad Commendation is now also being tracked
+- Added: Valor Points are now also being tracked
+- Changed: Added new group for Cataclysm currencies
+
+Version 4.1 - December 14, 2010
+- Added: Illustrious Jewelcrafter's Token is now also being tracked
+
+Version 4.0 - November 28, 2010
+- Added: Updated Chinese Traditional translations (Thanks to spring64783)
+- Added: Chef's Award is now also being tracked
+- Changed: Removed obsolete function due to fix on Blizzard's side
+- Changed: Armory data has been updated
+
+Version 3.9 - October 31, 2010
+- Fixed: Spacers in location dropdown were showing checkboxes
+- Added: Tracking mails between characters (automatic transfer of items/gold)
+- Changed: Updated armory data
+
+Version 3.8 - October 15, 2010
+- Fixed: Removed test code. Sorry for that
+
+Version 3.7 - October 15, 2010
+- Changed: Update TOC for latest patch
+- Fixed: Updated tracking of currencies. Not sure if all currencies are being tracked, please report if anything is missing
+
+Version 3.6 - October 4, 2010
+NOTE: Please revisit all your characters, some time related data is reset during initial startup
+- Fixed: Scroll position was being reset when applying new filter (text search, usable items)
+- Changed: Removed obsolete code
+- Changed: Improved date/time tracking when gaming on multiple platforms
+- Changed: Prep work for Cataclysm (UberInventory is not fully tested with Cataclysm)
+- Changed: By default vendor sell prices are not shown
+- Added: New setting allowing you to hide UberInventory's tooltip information completely. Can be toggeled also using a key binding
+
+Version 3.5 - June 14, 2010
+- Fixed: Character has incorrect faction stored (rare case during startup or after faction change)
+
+Version 3.4 - May 17, 2010
+- Added: 'Current balance' frame is now moveable (by holding now shift key)
+
+Version 3.3 - May 4, 2010
+- Fixed: Errors during startup resolved (Hopefully)
+- Changed: Updated Armory information
+- Added: Quest items and Quest starters are now marked
+
+Version 3.2 - February 28, 2010
+- Fixed: Corrected typo's in token names
+- Fixed: Resolved taint (something to do with dropdown lists when targeting)
+- Fixed: Cleanup of static data (recipe data), this also fixes ticket #6
+
+Version 3.1 - February 7, 2010
+- Changed: Both dressup (Ctrl+Left-Click) and chatlink (Shift+Left-Click) are supported from items show within UberInventory
+- Changed: New method of building money information
+- Changed: Minor code and XML enhancements
+- Added: Tracking of other currencies (Arena points, Honor points, Emblems, etc.)
+- Added: Clear button added to search field to easily clear search string field
+
+Version 3.0 - December 8, 2009
+- Changed: Removed warnings on full mailbox, has become standard Blizzard functionality
+- Changed: Updated for 3.3
+
+Version 2.9 - October 31, 2009
+- Fixed: Highlighting of items was not working for regular bank slots
+- Fixed: Itemcounts could be incorrect when taking items from bank/guildbank
+- Changed: Minimap icon behaves better in combination with addons like MinimapButtonFrame
+- Changed: Changed method of scanning mailbox content. Work in progress to prevent crashes when opening mailbox
+
+Version 2.8 - August 19, 2009
+- Fixed: Updated item quality selection list to include heirlooms (ticket #5)
+- Fixed: Corrected scrolling through items (Thanks to Sedouri for fixing it!!)
+- Changed: Updated Armory information
+- Changed: Mailbox scanning less aggressive (work in progress to prevent hangs/disconnects)
+- Changed: Item sell prices no longer stored but retrieved at runtime
+
+Version 2.7 - August 4, 2009
+- Changed: Updated for 3.2
+
+Version 2.6 - August 1, 2009
+- Fixed: Error in combination with Skillet solved
+
+Version 2.5 - July 28, 2009
+- Fixed: Error in combination with Auctioneer solved (ticket #4)
+
+Version 2.4 - July 21, 2009
+- Added: Russian translations (thanks to Gudvinus)
+
+Version 2.3 - June 2, 2009
+- Fixed: Error in combination with Auctioneer solved (ticket #3)
+- Changed: Scrolling no longer per 16 items but now uses the regular Blizzard scrolling behaviour
+- Changed: Code refactoring
+
+Version 2.2 - May 11, 2009
+- Fixed: Hopefully fixed disconnect/crashes with full mailboxes
+- Changed: Minor speed improvements for saving mailbox content
+
+Version 2.1 - April 14, 2009
+- Fixed: Improved guildbank tracking (less invasive, hopefully this solves disconnects experienced by some)
+- Changed: Updated TOC for WoW 3.1.0
+
+Version 2.0 - April 10, 2009
+- Fixed: Item counts where incorrectly displayed when item counts changes when inventory frame is being displayed
+- Changed: Improved look-n-feel of the settings frame
+- Changed: Improved cash collecting from mailbox
+- Changed: Removed code related to pending AH mails
+- Added: Items are highlighted in your bags, keyring, bank and guildbank when hovering over a specific item within UberInventory
+- Added: New commandline option (resetpos) to reset the position of the main UberInventory frame
+- Added: Total itemcount has been added to the tooltips
+
+Version 1.9 - February 26, 2009
+- Fixed: Minimizing the number of complete searches was not working properly
+- Fixed: Filtering was not working for the first subclass value within each of the subclasses
+
+Version 1.8 - February 19, 2009
+- Fixed: Mailbox was not being tracked for newly created characters or on the first use of UberInventory (fresh installs)
+
+Version 1.7 - February 16, 2009
+- Fixed: Commandline search is working again
+- Fixed: Maximum of 10 drops/vendors are shown per recipe
+- Fixed: Reset of filters was not working properly when subclass had been selected
+- Changed: General code and data optimizations
+
+Version 1.6 - January 19, 2009
+- Fixed: Issue with a clean install of UberInventory related to guildbanks
+- Fixed: Greatly decreased memory usage for static data
+- Changed: Improved performance checking usability of items
+- Changed: Redesign of settings page (now also in a scrollable frame)
+- Changed: Expiration of mail is now only tracked for mail with items or cash attached
+- Changed: More code cleanups
+- Added: Added options for warnings on full mailbox and expiring mails
+- Added: Added the possibility to filter by subclass
+
+Version 1.5 - December 24, 2008
+- Fixed: No more huge delays when opening mailbox or tradeskill windows and overall speed improvements
+- Changed: Updated Armory data (now includes data for books as well)
+- Changed: Guildbank data is now only sent when there are other guild members online
+- Changed: Removed obsolete code
+- Changed: Changed structure for pricing data (huge decrease in data size)
+- Added: Redesign of the filters for locations, now possible to search across All characters, All guildbanks or the combination thereof
+- Added: Warning when you have 50 messages (or more) in your mailbox, WoW only provides data for the 50 most recent messages, thus data for the other messages can not be fetched
+
+Version 1.4 - November 20, 2008
+- Fixed: Resolved issue with stored data cleanup (itemid but empty or non-existing name tag)
+- Changed: Updated Armory data, and corrections to the older data
+- Added: Cash that is automatically collected from mail is now reported (very handy for all those AH mails)
+
+Version 1.3 - November 15, 2008
+- Fixed: No guildbank data is sent to other guildies when we didn't have view access to all guildbank tabs
+- Fixed: Popup message when deleting character/guildbank data
+- Added: Information added to tooltips for recipes obtainable from vendors (vendor name and zone)
+- Added: Information added to tooltips for recipes obtainable from quests
+- Added: Information added to tooltips for recipes obtainable from mob drops, including drop rates
+- Added: Translations for Chinese Traditional (provided by Jamesz)
+
+Version 1.2 - October 20, 2008
+- Changed: Updated item prices
+
+Version 1.1 - October 14, 2008
+- Fixed: Moved guildbank updates to separate handler to prevent disconnects due to high volume of addon messages being sent
+- Fixed: Removed unused events (speed improvement)
+- Changed: Updated TOC for WoW 3.0.2
+- Changed: Removed forced garbagecollecting (speed improvement)
+- Added: Additional mailbox events are being monitored
+- Added: Pending sales are now also recorded as actual cash stored in your mailbox
+
+Version 1.0 - June 9, 2008
+- Fixed: Reset now also resets the 'Usable items' checkbox (also renamed to 'Usable items only')
+- Fixed: Cash collection from inbox has changed, should no longer cause internal mail database errors
+- Fixed: Usable-info not correct when item was not stored in local cache
+- Changed: Prices are no longer collected from merchants, instead a static library is provided containing pricing information
+- Changed: More cleanups
+- Added: Warn when mail is about to expire (5 days) for any of your characters (login each of your characters and visit mailbox to collect proper data)
+- Added: Options again accessible using the 'Options'-button on the main UberInventory frame
+
+Version 0.9 - April 25, 2008
+- Fixed: Minimap button again shown when maintaining options
+- Fixed: If no cash wash owned anymore, no cash info would be shown (chatframe, minimap tooltip)
+- Fixed: Settings got wiped when applying settings for other AddOns using the new  when the UberInventory options dialog was not shown earlier
+- Changed: Minor changes (code cleanup, further optimizations)
+- Changed: Removed unregistering of events (caused UBI to stop working when doing battlegrounds)
+- Added: Information (item counts, prices) now also added to the compare tooltips
+- Added: Unusable items are marked red to easily identify the stuff you can't use (yet)
+- Added: Now possible to filter to only show usable items (like the Auction House)
+
+Version 0.8 - April 15, 2008
+- Fixed: Total counts for alts could still sometimes be off
+- Fixed: Initial display of frame could cause an error
+- Fixed: Sometimes new items did not get counted from looting
+- Changed: New method of adding sell prices (optimized and workaround for Blizzard issue)
+- Changed: Unregister all events on exit (Hopefully this prevents erroneous 'Not in guild' messages)
+- Changed: Moved Options into the new in-game options interface
+- Changed: You can now see from whom you have received guildbank data
+- Changed: Enhancement money update within chat frame
+- Changed: Enhancement money display for items in main frame
+
+Version 0.7 - April 2, 2008
+- Fixed: Removed trailing / from chat window search results
+- Fixed: Guild cash not updated when inventory window is open and you are visiting the guildbank
+- Fixed: Item count not shown for items owned by current player when viewing guildbank data
+- Fixed: Filters active in the inventory frame also had influence of command line searches
+- Fixed: In rare situations total count did not match the sum of the individual counts
+- Fixed: Due to a bug in WoW cash info added to tooltips (after visit to AH, price per unit and buyout price per unit) displays incorrect. Cash info added as text for now.
+- Changed: Values for minimap position and transparency now visible (not just the sliders)
+- Changed: When updating minimap icon position, the icon is now always visible regardless op the 'Show minimap icon'-setting
+- Changed: Information for all guildbanks are added to the tooltips
+
+Version 0.6 - March 28, 2008
+- Changed: Only show locations for which a count is available (/ubi search)
+- Added: Icons added to the search results in the chat window
+
+Version 0.5 - March 26, 2008
+- Fixed: FrameXML.log was showing errors for UberInventory.xml
+- Changed: Added version number to the main inventory frame
+- Changed: Data structures for guildbank data revised
+- Changed: Cash own by alts and guildbanks can now be viewed
+- Changed: Minor code changes, mainly for readability
+- Changed: Updated TOC for WoW 2.4
+- Changed: Alts and guildbanks are sorted alphabetically
+- Changed: Some APIs changed to use latest WoW APIs (2.4)
+- Added: Command to remove character and guildbank date from the UberInventory data storage (/ubi remguild|remchar <name>) 
+
+Version 0.4 - March 19, 2008
+- Fixed: Data received for guildbank caused data to get corrupted
+- Changed: Highlight guildbank for current player in location list
+- Changed: On startup if an all ready connected user has a newer version of UberInventory, that user sends out a version message (like is done on startup)
+
+Version 0.3 - March 18, 2008
+- Fixed: Sometimes at startup an error occurred when in a guild (during start of game it is known you are a guild member only the name of the guild is not yet know to the game itself)
+- Fixed: Sometimes when logging on/off the message 'You are not in a guild' erroneously appears
+- Fixed: Tooltips in auction house now also working when using Auctioneer Advanced Suite 5.x
+- Fixed: No blank line insert when items are not owned by the player itself. No divider between price and alt counts
+- Fixed: Update of guildbank data received from other users not working properly (uncached items)
+- Changed: Minor code optimizations
+- Changed: Visit date for gb is now also reset after receiving gb data from others
+- Changed: On receiving guildbank data from multiple players, data from the latest sender will be kept
+- Changed: Always add all guildbanks to the list (same faction only)
+- Added: Guildbank count is now also available on tooltips
+
+Version 0.2 - March 2, 2008
+- Fixed: URL in the help information is incorrect
+- Fixed: Scrollbar not working properly on Windows clients
+- Fixed: Chatlinks stop working
+- Fixed: Information is no longer shown twice on recipe-type items
+- Added: Items owned by your alts (same faction and realm) are now available through the Locations box
+- Added: Option to turn on/off the minimap icon
+- Added: Information added on what all those numbers mean reported for item count
+- Added: Information of alts displayed on item tooltips
+- Added: Guildbank data can now be updated between guild members who have also are running UberInventory
+
+Version 0.1a - January 29, 2008
+- First public release

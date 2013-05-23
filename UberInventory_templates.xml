@@ -1,0 +1,249 @@
+<!--
+  Revision: $Id: UberInventory_templates.xml 764 2013-02-04 21:55:02Z fmeus_lgs $
+-->
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\..\FrameXML\UI.xsd">
+
+<!-- Template Moneyframe which has the mouse buttons disabled -->
+    <Frame name="UberInventory_MoneyFrame_Template" inherits="SmallMoneyFrameTemplate" hidden="true" virtual="true" enbaleMouse="false">
+        <Scripts>
+            <OnLoad>
+                SmallMoneyFrame_OnLoad( self );
+                _G[ self:GetName().."GoldButton" ]:EnableMouse( false );
+                _G[ self:GetName().."SilverButton" ]:EnableMouse( false );
+                _G[ self:GetName().."CopperButton" ]:EnableMouse( false );
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+<!-- New item button template -->
+    <Frame name="ItemButton_Template" hidden="false" virtual="true">
+        <Size>
+            <AbsDimension x="280" y="36"/>
+        </Size>
+
+        <Frames>
+            <Button name="$parentItemButton" inherits="ItemButtonTemplate">
+                <Attributes>
+                    <Attribute name="inventoryitem" value=""/>
+                    <Attribute name="location" value=""/>
+                    <Attribute name="usable" value=""/>
+                    <Attribute name="elapsed" value="0"/>
+                </Attributes>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentItemName" inherits="GameFontHighlight" justifyH="LEFT" text="Item">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPRIGHT">
+                                    <Offset><AbsDimension x="5" y="0"/></Offset>
+                                </Anchor>
+                            </Anchors>
+                            <Size>
+                                <AbsDimension x="240" y="12"/>
+                            </Size>
+                        </FontString>
+
+                        <FontString name="$parentItemCount" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_ITEM_COUNT">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentItemName" relativePoint="BOTTOMLEFT">
+                                    <Offset><AbsDimension x="0" y="0"/></Offset>
+                                </Anchor>
+                            </Anchors>
+                            <Size>
+                                <AbsDimension x="240" y="12"/>
+                            </Size>
+                        </FontString>
+
+                        <FontString name="$parentItemBuy" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_ITEM_BUY">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentItemCount" relativePoint="BOTTOMLEFT">
+                                    <Offset><AbsDimension x="0" y="0"/></Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+
+                        <FontString name="$parentItemSell" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_ITEM_SELL">
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parentItemBuy" relativePoint="TOPRIGHT">
+                                    <Offset><AbsDimension x="4" y="0"/></Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentIconQuestTexture">
+                            <Size>
+                                <AbsDimension x="37" y="38"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOP">
+                                    <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                    </Offset>
+                                </Anchor>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnEnter>
+                        UBI_TooltipItem = self:GetAttribute( "inventoryitem" );
+                        UBI_TooltipLocation = self:GetAttribute( "location" );
+                        GameTooltip:SetOwner( self, "ANCHOR_RIGHT");
+                        GameTooltip:SetHyperlink( UberInventory_GetLink( self:GetID() ) );
+                        GameTooltip:Show();
+                        UberInventory_Highlighter( UBI_TooltipItem.itemid, "on" );
+                    </OnEnter>
+                    <OnLeave>
+                        UberInventory_Highlighter( UBI_TooltipItem.itemid, "off" );
+                        UBI_TooltipItem = nil;
+                        UBI_TooltipLocation = nil;
+                        GameTooltip:Hide();
+                    </OnLeave>
+                    <OnClick>
+                        local _, itemLink = GameTooltip:GetItem();
+                        if ( HandleModifiedItemClick( itemLink ) ) then
+                            return;
+                        end;
+                    </OnClick>
+                    <OnUpdate>
+                        UberInventory_ItemButton_OnUpdate( self, elapsed );
+                    </OnUpdate>
+                </Scripts>
+            </Button>
+        </Frames>
+    </Frame>
+
+<!-- Template for tokens -->
+    <Button name="TokenButton_Template" virtual="true">
+        <Size>
+            <AbsDimension x="340" y="17"/>
+        </Size>
+        <Layers>
+            <Layer level="BORDER">
+                <Texture name="$parentIcon">
+                    <Size>
+                        <AbsDimension x="15" y="15"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPRIGHT">
+                            <Offset><AbsDimension x="5" y="0"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <FontString name="$parentCount" inherits="GameFontHighlightRight" text="1">
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="$parentIcon" relativePoint="LEFT">
+                            <Offset x="-5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentName" inherits="GameFontHighlightLeft" text="Token">
+                    <Size>
+                        <AbsDimension x="240" y="11"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT">
+                            <Offset x="11" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Anchors>
+            <Anchor point="TOPLEFT">
+                <Offset><AbsDimension x="0" y="0"/></Offset>
+            </Anchor>
+        </Anchors>
+    </Button>
+
+<!-- Template for checkboxes -->
+    <CheckButton name="Checkbox_Template" inherits="InterfaceOptionsCheckButtonTemplate" virtual="true">
+        <HitRectInsets>
+            <AbsInset left="0" right="-100" top="0" bottom="0"/>
+        </HitRectInsets>
+        <Scripts>
+            <OnShow>
+                _G[ self:GetName() .. "Text" ]:SetText( UBI_CheckButtons[ self:GetID() ]["text"] );
+            </OnShow>
+            <OnEnter>
+                GameTooltip:SetOwner( self, "ANCHOR_RIGHT" );
+                GameTooltip:SetText( UBI_CheckButtons[ self:GetID() ]["tooltip"], nil, nil, nil, nil, 1 );
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide();
+            </OnLeave>
+        </Scripts>
+    </CheckButton>
+
+
+<!-- Template for checkboxes -->
+    <CheckButton name="RadioButton_Template" inherits="UIRadioButtonTemplate" virtual="true">
+        <HitRectInsets>
+            <AbsInset left="0" right="-100" top="0" bottom="0"/>
+        </HitRectInsets>
+        <Scripts>
+            <OnShow>
+                _G[ self:GetName() .. "Text" ]:SetText( UBI_CheckButtons[ self:GetID() ]["text"] );
+            </OnShow>
+            <OnEnter>
+                GameTooltip:SetOwner( self, "ANCHOR_RIGHT" );
+                GameTooltip:SetText( UBI_CheckButtons[ self:GetID() ]["tooltip"], nil, nil, nil, nil, 1 );
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide();
+            </OnLeave>
+        </Scripts>
+    </CheckButton>
+
+<!-- Groupbox template -->
+    <Frame name="Groupbox_Template" virtual="true">
+        <Backdrop bgFile = "Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+            <EdgeSize>
+                <AbsValue val="16"/>
+            </EdgeSize>
+            <TileSize>
+                <AbsValue val="16"/>
+            </TileSize>
+            <BackgroundInsets>
+                <AbsInset left="5" right="5" top="5" bottom="5"/>
+            </BackgroundInsets>
+        </Backdrop>
+    </Frame>
+
+<!-- Dialog template -->
+    <Frame name="UberInventory_Dialog" hidden="true" virtual="true" frameStrata="DIALOG" parent="UIParent">
+        <Size>
+            <AbsDimension x="640" y="506"/>
+        </Size>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+            <BackgroundInsets>
+                <AbsInset left="11" right="12" top="12" bottom="11"/>
+            </BackgroundInsets>
+            <TileSize>
+                <AbsValue val="32"/>
+            </TileSize>
+            <EdgeSize>
+                <AbsValue val="32"/>
+            </EdgeSize>
+        </Backdrop>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Scripts>
+            <OnShow> PlaySound( "igCharacterInfoOpen" ); </OnShow>
+            <OnHide> PlaySound( "igCharacterInfoClose" ); </OnHide>
+            <OnMouseDown> self:StartMoving(); </OnMouseDown>
+            <OnMouseUp> self:StopMovingOrSizing(); </OnMouseUp>
+            <OnDragStop> self:StopMovingOrSizing(); </OnDragStop>
+        </Scripts>
+    </Frame>
+
+</Ui>

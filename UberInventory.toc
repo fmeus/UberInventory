@@ -1,0 +1,34 @@
+## Interface: 50300
+## Title: UberInventory
+## Version: 6.5
+## Author: fmeus
+## Notes: UberInventory lets you view your inventory at all items (includes your bags, bank, keyring and mailbox). Also vendor prices (when available) will be presented at any item.
+## Notes-zhTW: 記錄你所有角色的物品（包括背包、銀行、鑰匙、信箱與公會銀行），並顯示物品賣價。
+## DefaultState: enabled
+## SavedVariables: UBI_Data
+## Revision: $Id: UberInventory.toc 1097 2013-05-22 15:04:42Z fmeus_lgs $
+
+libs\LibStub.lua
+libs\LibDataBroker-1.1.lua
+
+TaskHandlerLib.lua
+
+UberInventory_globals.lua
+UberInventory_prices.lua
+UberInventory_recipes.lua
+
+UberInventory_en.lua
+UberInventory_es.lua
+UberInventory_fr.lua
+UberInventory_de.lua
+UberInventory_ru.lua
+UberInventory_kr.lua
+UberInventory_cn.lua
+UberInventory_tw.lua
+
+UberInventory.lua
+
+UberInventory_templates.xml
+UberInventory.xml
+
+Broker_UberInventory.lua

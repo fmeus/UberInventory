@@ -1,0 +1,1411 @@
+<!--
+  Revision: $Id: UberInventory.xml 764 2013-02-04 21:55:02Z fmeus_lgs $
+-->
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\..\FrameXML\UI.xsd">
+
+<!--
+    <Script file="UberInventory_debug.lua"/>
+-->
+
+<!-- Main AddOn frame -->
+    <Frame parent="UIParent" name="UBI">
+        <Scripts>
+            <OnLoad>
+                UberInventory_OnLoad();
+            </OnLoad>
+            <OnEvent>
+                UberInventory_OnEvent( self, event, ... );
+            </OnEvent>
+            <OnUpdate>
+                if ( UBI_CHECK_DATE ~= date( "%Y%m%d" ) ) then
+                    UBI_CHECK_DATE = date( "%Y%m%d" );
+                    UberInventory_MailExpirationCheck();
+                end;
+            </OnUpdate>
+        </Scripts>
+    </Frame>
+
+<!-- Frame used to be able to present the current balance at all times -->
+    <Frame name="UberInventoryBalanceFrame" hidden="true" frameStrata="DIALOG" parent="UIParent" enbaleMouse="false" movable="false">
+        <Frames>
+            <Frame name="$parentMoneyFrame" inherits="UberInventory_MoneyFrame_Template" hidden="false" enbaleMouse="false" movable="true">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="UIParent" relativePoint="TOPLEFT">
+                        <Offset><AbsDimension x="2" y="-1"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnMouseDown> if ( IsShiftKeyDown() ) then self:StartMoving(); end; </OnMouseDown>
+                    <OnMouseUp> self:StopMovingOrSizing(); </OnMouseUp>
+                    <OnDragStop> self:StopMovingOrSizing(); </OnDragStop>
+                    <OnEnter>
+                        GameTooltip:SetOwner( self, "ANCHOR_BOTTOMRIGHT" );
+                        GameTooltip:SetText( UBI_MOVEMENT, nil, nil, nil, nil, 1 );
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide();
+                    </OnLeave>
+                </Scripts>
+            </Frame>
+        </Frames>
+    </Frame>
+
+<!-- Options frame -->
+    <Frame name="UberInventoryOptionsFrame" hidden="false" parent="InterfaceOptionsFramePanelContainer">
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentTitle" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP" text="UBI_OPTIONS_TITLE">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parent">
+                            <Offset><AbsDimension x="16" y="-16"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentSubtext" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="TOP" text="UBI_OPTIONS_SUBTEXT">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT">
+                            <Offset><AbsDimension x="0" y="-8"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+            <ScrollFrame name="SettingsScrollFrameContainer" inherits="UIPanelScrollFrameTemplate">
+                <Size>
+                    <AbsDimension x="300" y="500"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentSubtext" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-10"/></Offset>
+                    </Anchor>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="UberInventoryOptionsFrame" relativePoint="BOTTOMRIGHT">
+                        <Offset><AbsDimension x="-32" y="10"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <ScrollChild>
+
+                    <Frame name="SettingsScrollFrame">
+                        <Size>
+                            <AbsDimension x="300" y="50"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPLEFT"/>
+                        </Anchors>
+                        <Frames>
+
+    <!-- Section Header: General Settings -->
+                            <Frame name="SectionGeneral">
+                                <Size>
+                                    <AbsDimension x="300" y="16"/>
+                                </Size>
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <FontString name="SectionGeneralText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_GENERAL" />
+                                    </Layer>
+                                </Layers>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingsScrollFrame" relativePoint="TOPLEFT">
+                                        <Offset><AbsDimension x="5" y="-14"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+
+    <!-- Section border: General Settings -->
+                            <Frame name="GeneralGroup" inherits="Groupbox_Template">
+                                <Size>
+                                    <AbsDimension x="350" y="160"/>
+                                </Size>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SectionGeneral" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+
+    <!-- Checkbox show money updates -->
+                            <CheckButton name="SettingMoney" inherits="Checkbox_Template" id="1">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="GeneralGroup" relativePoint="TOPLEFT">
+                                        <Offset><AbsDimension x="5" y="-5"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Checkbox show money on-screen -->
+                            <CheckButton name="SettingBalance" inherits="Checkbox_Template" id="2">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingMoney" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Checkbox take inbox money -->
+                            <CheckButton name="SettingInboxMoney" inherits="Checkbox_Template" id="7">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingBalance" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Checkbox highlight -->
+                            <CheckButton name="SettingHighlight" inherits="Checkbox_Template" id="12">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingInboxMoney" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Alpha slider -->
+                            <Slider name="SettingAlpha" inherits="OptionsSliderTemplate">
+                                <Size>
+                                    <AbsDimension x="280" y="16"/>
+                                </Size>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingHighlight" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="10" y="-16"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <Scripts>
+                                    <OnLoad>
+                                        _G[ self:GetName().. "Text" ]:SetFormattedText( UBI_OPTION_ALPHA, self:GetValue()*100 );
+                                        _G[ self:GetName().."Low" ]:SetText( "0 %" );
+                                        _G[ self:GetName().."High" ]:SetText( "100 %" );
+                                        self:SetMinMaxValues( 0, 1 );
+                                        self:SetValueStep( 0.1 );
+                                    </OnLoad>
+                                    <OnEnter>
+                                        GameTooltip:SetOwner( self, "ANCHOR_RIGHT" );
+                                        GameTooltip:SetText( UBI_OPTION_ALPHA_TIP, nil, nil, nil, nil, 1 );
+                                    </OnEnter>
+                                    <OnLeave>
+                                        GameTooltip:Hide();
+                                    </OnLeave>
+                                    <OnValueChanged>
+                                        _G[ self:GetName().. "Text" ]:SetFormattedText( UBI_OPTION_ALPHA, self:GetValue()*100 );
+                                        UberInventory_Change_Alpha( self:GetValue() );
+                                    </OnValueChanged>
+                                </Scripts>
+                            </Slider>
+
+    <!-- Section Header: Warning Settings -->
+                            <Frame name="SectionWarning">
+                                <Size>
+                                    <AbsDimension x="300" y="16"/>
+                                </Size>
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <FontString name="SectionWarningText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_WARNINGS" />
+                                    </Layer>
+                                </Layers>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="GeneralGroup" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="-18"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+
+    <!-- Section border: Warning Settings -->
+                            <Frame name="WarningGroup" inherits="Groupbox_Template">
+                                <Size>
+                                    <AbsDimension x="350" y="40"/>
+                                </Size>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SectionWarning" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+
+    <!-- Checkbox send guildbank data -->
+                            <CheckButton name="SettingWarnMailExpire" inherits="Checkbox_Template" id="11">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="WarningGroup" relativePoint="TOPLEFT">
+                                        <Offset><AbsDimension x="5" y="-5"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Section Header: Guildbank Settings -->
+                            <Frame name="SectionGuildbank">
+                                <Size>
+                                    <AbsDimension x="300" y="24"/>
+                                </Size>
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <FontString name="$parentSectionGuildbankText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_GUILDBANK" />
+                                    </Layer>
+                                </Layers>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="WarningGroup" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="-14"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+
+    <!-- Section border: Guildbank Settings -->
+                            <Frame name="GuildbankGroup" inherits="Groupbox_Template">
+                                <Size>
+                                    <AbsDimension x="350" y="90"/>
+                                </Size>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SectionGuildbank" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+
+    <!-- Checkbox track guildbank data -->
+                            <CheckButton name="SettingTrackGuildbankData" inherits="Checkbox_Template" id="15">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="GuildbankGroup" relativePoint="TOPLEFT">
+                                        <Offset><AbsDimension x="5" y="-5"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Checkbox send guildbank data -->
+                            <CheckButton name="SettingSendGuildbankData" inherits="Checkbox_Template" id="9">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingTrackGuildbankData" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Checkbox receive guildbank data -->
+                            <CheckButton name="SettingReceiveGuildbankData" inherits="Checkbox_Template" id="10">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingSendGuildbankData" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Section Header: Tooltip Settings -->
+                            <Frame name="SectionTooltip">
+                                <Size>
+                                    <AbsDimension x="300" y="16"/>
+                                </Size>
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <FontString name="SectionTooltipText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_TOOLTIP" />
+                                    </Layer>
+                                </Layers>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="GuildbankGroup" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="-14"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+
+    <!-- Section border: Tooltip Settings -->
+                            <Frame name="TooltipGroup" inherits="Groupbox_Template">
+                                <Size>
+                                    <AbsDimension x="350" y="170"/>
+                                </Size>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SectionTooltip" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+
+    <!-- Checkbox show tooltip information (overrules the rest) -->
+                            <CheckButton name="SettingShowTooltip" inherits="Checkbox_Template" id="13">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="TooltipGroup" relativePoint="TOPLEFT">
+                                        <Offset><AbsDimension x="5" y="-5"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <Scripts>
+                                    <OnClick>
+                                        UberInventory_Redraw_TooltipOptions();
+                                    </OnClick>
+                                </Scripts>
+                            </CheckButton>
+
+    <!-- Checkbox show item counts on tooltips -->
+                            <CheckButton name="SettingShowItemcount" inherits="Checkbox_Template" id="14">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingShowTooltip" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="20" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Checkbox show prices on tooltips -->
+                            <CheckButton name="SettingSellPrice" inherits="Checkbox_Template" id="3">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingShowItemcount" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Checkbox show recipe prices on tooltips -->
+                            <CheckButton name="SettingRecipePrice" inherits="Checkbox_Template" id="4">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingSellPrice" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Checkbox recipe quest rewards on tooltips -->
+                            <CheckButton name="SettingQuestReward" inherits="Checkbox_Template" id="5">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingRecipePrice" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Checkbox recipe mob drops on tooltips -->
+                            <CheckButton name="SettingRecipeDrop" inherits="Checkbox_Template" id="6">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingQuestReward" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Section header: Pricing Settings -->
+                            <Frame name="SectionPricing">
+                                <Size>
+                                    <AbsDimension x="300" y="16"/>
+                                </Size>
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <FontString name="SectionMinimapText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_PRICING" />
+                                    </Layer>
+                                </Layers>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="TooltipGroup" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="-14"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+
+    <!-- Section border: Pricing Settings -->
+                            <Frame name="PricingGroup" inherits="Groupbox_Template">
+                                <Size>
+                                    <AbsDimension x="350" y="45"/>
+                                </Size>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SectionPricing" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+
+                            <!-- Vendor prices (buy, sell) -->
+                            <CheckButton name="SettingPriceVendor" inherits="RadioButton_Template" id="16">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="PricingGroup" relativePoint="TOPLEFT">
+                                        <Offset><AbsDimension x="5" y="-5"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <Scripts>
+                                    <OnClick>
+                                        UberInventory_Change_Pricing( self:GetID() );
+                                    </OnClick>
+                                </Scripts>
+                            </CheckButton>
+
+                            <!-- Auction House buyout prices -->
+                            <CheckButton name="SettingPriceAH" inherits="RadioButton_Template" id="17">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingPriceVendor" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <Scripts>
+                                    <OnClick>
+                                        UberInventory_Change_Pricing( self:GetID() );
+                                    </OnClick>
+                                </Scripts>
+                            </CheckButton>
+
+    <!-- Section Header: Minimap Settings -->
+                            <Frame name="SectionMinimap">
+                                <Size>
+                                    <AbsDimension x="300" y="16"/>
+                                </Size>
+                                <Layers>
+                                    <Layer level="BACKGROUND">
+                                        <FontString name="SectionMinimapText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_MINIMAP" />
+                                    </Layer>
+                                </Layers>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="PricingGroup" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="-14"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+
+    <!-- Section border: Minimap Settings -->
+                            <Frame name="MinimapGroup" inherits="Groupbox_Template">
+                                <Size>
+                                    <AbsDimension x="350" y="80"/>
+                                </Size>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SectionMinimap" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </Frame>
+
+    <!-- Checkbox show minimap icon -->
+                            <CheckButton name="SettingShowMinimap" inherits="Checkbox_Template" id="8">
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="MinimapGroup" relativePoint="TOPLEFT">
+                                        <Offset><AbsDimension x="5" y="-5"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                            </CheckButton>
+
+    <!-- Minimap button position slider -->
+                            <Slider name="SettingMinimap" inherits="OptionsSliderTemplate">
+                                <Size>
+                                    <AbsDimension x="280" y="16"/>
+                                </Size>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT" relativeTo="SettingShowMinimap" relativePoint="BOTTOMLEFT">
+                                        <Offset><AbsDimension x="10" y="-16"/></Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <Scripts>
+                                    <OnLoad>
+                                        _G[ self:GetName().. "Text" ]:SetFormattedText( UBI_OPTION_MINIMAP, self:GetValue() );
+                                        _G[ self:GetName().."High" ]:SetText( "360" );
+                                        _G[ self:GetName().."Low" ]:SetText( "0" );
+                                        self:SetMinMaxValues( 0, 360 );
+                                        self:SetValueStep( 1 );
+                                    </OnLoad>
+                                    <OnEnter>
+                                        GameTooltip:SetOwner( self, "ANCHOR_RIGHT" );
+                                        GameTooltip:SetText( UBI_OPTION_MINIMAP_TIP, nil, nil, nil, nil, 1 );
+                                    </OnEnter>
+                                    <OnLeave>
+                                        GameTooltip:Hide();
+                                    </OnLeave>
+                                    <OnValueChanged>
+                                        _G[ self:GetName().. "Text" ]:SetFormattedText( UBI_OPTION_MINIMAP, self:GetValue() );
+                                        UberInventory_Minimap_Update( self:GetValue() );
+                                    </OnValueChanged>
+                                </Scripts>
+                            </Slider>
+                        </Frames>
+                    </Frame>
+                </ScrollChild>
+            </ScrollFrame>
+        </Frames>
+
+        <Scripts>
+            <OnShow>
+                UberInventory_SetOptions( self );
+                UberInventoryMinimap:Show();
+            </OnShow>
+        </Scripts>
+    </Frame>
+
+<!-- Main UberInventory frame -->
+    <Frame name="UberInventoryFrame" hidden="true" parent="UIParent" frameStrata="MEDIUM" inherits="UberInventory_Dialog" toplevel="true" movable="true" enbaleMouse="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentTexture">
+                    <Color r="0" g="0" b="0" a="1"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="4" y="-4"/>
+                        </Anchor>
+                        <Anchor point="BOTTOMRIGHT">
+                            <Offset x="-4" y="4"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+
+            <Layer level="ARTWORK">
+                <Texture name="$parentFrameHeader" file="Interface\DialogFrame\UI-DialogBox-Header">
+                    <Size>
+                        <AbsDimension x="400" y="64"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOP">
+                            <Offset><AbsDimension x="0" y="12"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+
+<!-- Frame title -->
+                <FontString name="$parentText" inherits="GameFontNormal" text="UBI_NAME_VERSION">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parent">
+                            <Offset><AbsDimension x="0" y="-2"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+
+<!-- Inventory count -->
+                <FontString name="$parentInventoryCount" inherits="GameFontHighlightSmall" text="UBI_INVENTORY_COUNT">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parent">
+                            <Offset><AbsDimension x="-14" y="-14"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                 </FontString>
+
+<!-- Wallet string -->
+                <FontString name="$parentMoneyWallet" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_MONEY_WALLET">
+                    <Size>
+                        <AbsDimension x="80" y="11"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativeTo="$parent">
+                            <Offset><AbsDimension x="16" y="55"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentMoneyWalletCash" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_EMPTY_TEXT">
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="$parentMoneyWallet" relativePoint="RIGHT">
+                            <Offset><AbsDimension x="0" y="0"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+
+<!-- Mail string -->
+                <FontString name="$parentMoneyMail" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_MONEY_MAIL">
+                    <Size>
+                        <AbsDimension x="80" y="11"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentMoneyWallet" relativePoint="BOTTOMLEFT">
+                            <Offset><AbsDimension x="0" y="-5"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentMoneyMailCash" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_EMPTY_TEXT">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentMoneyWalletCash" relativePoint="BOTTOMLEFT">
+                            <Offset><AbsDimension x="0" y="-5"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+
+<!-- Guild cash string -->
+                <FontString name="$parentMoneyOthers" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_MONEY_GUILDALT">
+                    <Size>
+                        <AbsDimension x="80" y="11"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentMoneyMail" relativePoint="BOTTOMLEFT">
+                            <Offset><AbsDimension x="0" y="-5"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentMoneyOthersCash" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_EMPTY_TEXT">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentMoneyMailCash" relativePoint="BOTTOMLEFT">
+                            <Offset><AbsDimension x="0" y="-5"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+
+<!-- Bag slot info -->
+                <FontString name="$parentBagSlots" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_SLOT_BAGS">
+                    <Size>
+                        <AbsDimension x="200" y="11"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentMoneyWallet" relativePoint="TOPRIGHT">
+                            <Offset><AbsDimension x="200" y="0"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+
+<!-- Bank slot info -->
+                <FontString name="$parentBankSlots" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_SLOT_BANK">
+                    <Size>
+                        <AbsDimension x="200" y="11"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBagSlots" relativePoint="BOTTOMLEFT">
+                            <Offset><AbsDimension x="0" y="-5"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+<!-- Location dropdown box -->
+            <Frame name="$parentLocationDropDown" inherits="UIDropDownMenuTemplate">
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString name="$parentLocationText" inherits="GameFontHighlightSmall" justifyH="LEFT" text="UBI_TEXT_ITEM">
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                                    <Offset><AbsDimension x="20" y="0"/></Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                        <Offset><AbsDimension x="0" y="-40"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnShow>
+                        -- Add options to the list
+                        UIDropDownMenu_Initialize( self, UberInventory_Locations_Init );
+
+                        -- By default select first one from the list
+                        UIDropDownMenu_SetText( self, UBI_LocationList[UBI_FILTER_LOCATIONS].value );
+
+                        -- Set width
+                        UIDropDownMenu_SetWidth( self, 120 );
+                    </OnShow>
+                </Scripts>
+            </Frame>
+
+<!-- Quality dropdown box -->
+            <Frame name="$parentQualityDropDown" inherits="UIDropDownMenuTemplate">
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString name="$parentQualityText" inherits="GameFontHighlightSmall" justifyH="LEFT" text="UBI_TEXT_QUALITY">
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                                    <Offset><AbsDimension x="20" y="0"/></Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentLocationDropDown" relativePoint="TOPRIGHT">
+                        <Offset><AbsDimension x="-30" y="0"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnShow>
+                        -- Add options to the list
+                        UIDropDownMenu_Initialize( self, UberInventory_Quality_Init );
+
+                        -- By default select first one from the list
+                        UIDropDownMenu_SetText( self, UBI_QUALITY[UBI_FILTER_QUALITY] );
+
+                        -- Set width
+                        UIDropDownMenu_SetWidth( self, 102 );
+                    </OnShow>
+                </Scripts>
+            </Frame>
+
+<!-- Item type dropdown box -->
+            <Frame name="$parentClassDropDown" inherits="UIDropDownMenuTemplate">
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString name="$parentClassText" inherits="GameFontHighlightSmall" justifyH="LEFT" text="UBI_TEXT_CLASSES">
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                                    <Offset><AbsDimension x="20" y="0"/></Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentQualityDropDown" relativePoint="TOPRIGHT">
+                        <Offset><AbsDimension x="-30" y="0"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnShow>
+                        -- Add options to the list
+                        UIDropDownMenu_Initialize( self, UberInventory_Classes_Init );
+
+                        -- By default select first one from the list
+                        UIDropDownMenu_SetText( self, UBI_CLASSES[UBI_FILTER_CLASSES] );
+
+                        -- Set width
+                        UIDropDownMenu_SetWidth( self, 120 );
+                    </OnShow>
+                </Scripts>
+            </Frame>
+
+<!-- Search box -->
+            <EditBox name="$parentItemSearch" autoFocus="false" inherits="InputBoxTemplate">
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString name="$parentSearchText" inherits="GameFontHighlightSmall" justifyH="LEFT" text="UBI_TEXT_SEARCH">
+                            <Anchors>
+                                <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                                    <Offset><AbsDimension x="0" y="4"/></Offset>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Size>
+                    <AbsDimension x="117" y="16"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentClassDropDown" relativePoint="TOPRIGHT">
+                        <Offset><AbsDimension x="-7" y="-6"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnTextChanged>
+                        UBI_FILTER_TEXT = self:GetText();
+                        UberInventory_DisplayItems();
+                    </OnTextChanged>
+                    <OnEscapePressed>
+                        self:ClearFocus();
+                    </OnEscapePressed>
+                    <OnTabPressed>
+                        self:ClearFocus();
+                    </OnTabPressed>
+                    <OnEnterPressed>
+                        self:ClearFocus();
+                    </OnEnterPressed>
+                </Scripts>
+            </EditBox>
+
+<!-- Clear button -->
+            <Button name="$parentClear" inherits="UIPanelButtonTemplate" text="x">
+                <Size>
+                    <AbsDimension x="21" y="21"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentItemSearch" relativePoint="RIGHT"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        UberInventoryFrameItemSearch:SetText( "" );
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+<!-- Reset button -->
+            <Button name="$parentResetButton" inherits="UIPanelButtonTemplate" text="UBI_RESET_BUTTON">
+                <Size>
+                    <AbsDimension x="60" y="21"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentClear" relativePoint="TOPRIGHT">
+                        <Offset><AbsDimension x="3" y="0"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        self:RegisterForClicks( "LeftButtonUp", "RightButtonDown" );
+                    </OnLoad>
+                    <OnClick>
+                        UberInventory_ResetFilters( button );
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+<!-- Border -->
+            <Frame name="$parentBorder" enableMouse="true" hidden="false">
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTexture">
+                            <Color r="0.1" g="0.1" b="0.1" a="1"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset x="4" y="-4"/>
+                                </Anchor>
+                                <Anchor point="BOTTOMRIGHT">
+                                    <Offset x="-4" y="4"/>
+                                </Anchor>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Size>
+                    <AbsDimension x="612" y="367"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                        <Offset><AbsDimension x="15" y="-70"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        self:EnableMouseWheel( true );
+                    </OnLoad>
+                    <OnMouseWheel>
+                        UberInventory_OnMouseWheel( UberInventoryFrameScroll, delta, "ITEMS" );
+                        -- ScrollFrameTemplate_OnMouseWheel( self, delta );
+                    </OnMouseWheel>
+                </Scripts>
+                <Backdrop  edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="false">
+                    <BackgroundInsets>
+                        <AbsInset left="5" right="5" top="5" bottom="5"/>
+                    </BackgroundInsets>
+                    <TileSize>
+                        <AbsValue val="16"/>
+                    </TileSize>
+                    <EdgeSize>
+                        <AbsValue val="16"/>
+                    </EdgeSize>
+                </Backdrop>
+            </Frame>
+
+<!-- First column -->
+            <Button name="$parentItem1" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset><AbsDimension x="25" y="-80"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem3" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem1" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem5" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem3" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem7" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem5" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem9" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem7" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem11" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem9" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem13" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem11" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem15" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem13" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+<!-- Second column -->
+            <Button name="$parentItem2" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem1" relativePoint="TOPRIGHT">
+                        <Offset><AbsDimension x="15" y="0"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem4" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem2" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem6" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem4" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem8" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem6" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem10" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem8" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem12" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem10" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem14" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem12" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentItem16" inherits="ItemButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem14" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="0" y="-8"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+            <Button name="$parentCloseButton" inherits="UIPanelButtonTemplate" text="UBI_CLOSE_BUTTON">
+                <Size>
+                    <AbsDimension x="100" y="21"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT">
+                        <Offset><AbsDimension x="-15" y="15"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        UberInventory_Toggle_Main();
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentOptionsButton" inherits="UIPanelButtonTemplate" text="UBI_OPTIONS_BUTTON">
+                <Size>
+                    <AbsDimension x="100" y="21"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentCloseButton" relativePoint="TOPLEFT">
+                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        InterfaceOptionsFrame_OpenToCategory( UberInventoryOptionsFrame );
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentTokensButton" inherits="UIPanelButtonTemplate">
+                <Size>
+                    <AbsDimension x="80" y="21"/>
+                </Size>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <Texture name="$parentIcon" file="Interface\Icons\inv_misc_frostemblem_01">
+                            <Size>
+                                <AbsDimension x="12" y="12"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                                    <Offset><AbsDimension x="8" y="-5"/></Offset>
+                                </Anchor>
+                            </Anchors>
+                        </Texture>
+                        <FontString name="$parentName" inherits="GameFontNormal" text="TOKENS">
+                            <Anchors>
+                                <Anchor point="RIGHT">
+                                    <Offset x="-11" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentOptionsButton" relativePoint="TOPLEFT">
+                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        UberInventory_Toggle_Tokens();
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+<!-- Scroll buttons -->
+            <ScrollFrame name="$parentScroll" inherits="FauxScrollFrameTemplate" enableMouse="true">
+                <Size>
+                    <AbsDimension x="16" y="356"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentItem2" relativePoint="TOPRIGHT">
+                        <Offset><AbsDimension x="-17" y="4"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnVerticalScroll>
+                        FauxScrollFrame_OnVerticalScroll( self, offset, 36, UberInventory_DisplayItems );
+                    </OnVerticalScroll>
+                </Scripts>
+            </ScrollFrame>
+
+<!-- Only show usable items -->
+            <CheckButton name="$parentUsableItems" inherits="UICheckButtonTemplate" >
+                <Size>
+                    <AbsDimension x="24" y="24"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentScroll" relativePoint="BOTTOMRIGHT">
+                        <Offset><AbsDimension x="28" y="-4"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnEnter>
+                        GameTooltip:SetOwner( self, "ANCHOR_RIGHT" );
+                        GameTooltip:SetText( UBI_USABLE_ITEMS_TIP, nil, nil, nil, nil, 1 );
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide();
+                    </OnLeave>
+                    <OnShow>
+                        self:SetChecked( UBI_FILTER_USABLE );
+                        _G[ self:GetName() .. "Text" ]:SetText( UBI_USABLE_ITEMS );
+                        _G[ self:GetName() .. "Text" ]:ClearAllPoints();
+                        _G[ self:GetName() .. "Text" ]:SetPoint( "RIGHT", self, "LEFT", -4, 0 );
+                    </OnShow>
+                    <OnClick>
+                        UBI_FILTER_USABLE = self:GetChecked();
+                        UberInventory_DisplayItems();
+                    </OnClick>
+                </Scripts>
+            </CheckButton>
+
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                tinsert( UISpecialFrames, self:GetName() );
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+<!-- Token frame -->
+    <Frame name="UberInventoryTokens" hidden="true" parent="UberInventoryFrame" frameStrata="LOW" inherits="UberInventory_Dialog" toplevel="true" movable="false" enbaleMouse="true">
+        <Size>
+            <AbsDimension x="420" y="395"/>
+        </Size>
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPRIGHT">
+                <Offset><AbsDimension x="-12" y="-50"/></Offset>
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentTexture">
+                    <Color r="0" g="0" b="0" a="1"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="4" y="-4"/>
+                        </Anchor>
+                        <Anchor point="BOTTOMRIGHT">
+                            <Offset x="-4" y="4"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <FontString name="$parentHeading" inherits="GameFontNormalLarge" text="TOKENS">
+                    <Anchors>
+                        <Anchor point="TOP" relativeTo="$parent">
+                            <Offset><AbsDimension x="0" y="-14"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <Frames>
+<!-- Border -->
+            <Frame name="$parentBorder" enableMouse="true" hidden="false">
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTexture">
+                            <Color r="0.1" g="0.1" b="0.1" a="1"/>
+                            <Anchors>
+                                <Anchor point="TOPLEFT">
+                                    <Offset x="4" y="-4"/>
+                                </Anchor>
+                                <Anchor point="BOTTOMRIGHT">
+                                    <Offset x="-4" y="4"/>
+                                </Anchor>
+                            </Anchors>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Size>
+                    <AbsDimension x="390" y="350"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentHeading" relativePoint="BOTTOM">
+                        <Offset><AbsDimension x="0" y="0"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Backdrop  edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="false">
+                    <BackgroundInsets>
+                        <AbsInset left="5" right="5" top="5" bottom="5"/>
+                    </BackgroundInsets>
+                    <TileSize>
+                        <AbsValue val="16"/>
+                    </TileSize>
+                    <EdgeSize>
+                        <AbsValue val="16"/>
+                    </EdgeSize>
+                </Backdrop>
+            </Frame>
+
+<!-- Token buttons -->
+            <Button name="Token1" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentBorder" relativePoint="TOPLEFT">
+                        <Offset><AbsDimension x="1" y="-5"/></Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token2" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token1" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token3" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token2" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token4" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token3" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token5" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token4" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token6" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token5" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token7" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token6" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token8" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token7" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token9" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token8" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token10" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token9" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token11" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token10" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token12" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token11" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token13" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token12" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token14" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token13" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token15" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token14" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token16" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token15" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token17" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token16" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token18" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token17" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token19" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token18" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+            <Button name="Token20" inherits="TokenButton_Template">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="Token19" relativePoint="BOTTOMLEFT">
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+<!-- Scroll buttons -->
+            <ScrollFrame name="$parentScroll" inherits="FauxScrollFrameTemplate" enableMouse="true">
+                <Size>
+                    <AbsDimension x="16" y="340"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="$parentBorder" relativePoint="TOPRIGHT">
+                        <Offset><AbsDimension x="-28" y="-6"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnVerticalScroll>
+                        FauxScrollFrame_OnVerticalScroll( self, offset, 17, UberInventory_DisplayTokens );
+                    </OnVerticalScroll>
+                </Scripts>
+            </ScrollFrame>
+        </Frames>
+        <Scripts>
+            <OnShow>
+                UberInventory_DisplayTokens();
+            </OnShow>
+            <OnLoad>
+                self:EnableMouseWheel( true );
+            </OnLoad>
+            <OnMouseWheel>
+                UberInventory_OnMouseWheel( UberInventoryTokensScroll, delta, "TOKENS" );
+            </OnMouseWheel>
+        </Scripts>
+    </Frame>
+
+<!-- Minimap icon -->
+    <Button name="UberInventoryMinimap" parent="Minimap" frameStrata="MEDIUM">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture name="$parentBorder" file="Interface\Minimap\MiniMap-TrackingBorder">
+                    <Size>
+                        <AbsDimension x="52" y="52"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture name="$parentIcon" file="Interface\AddOns\UberInventory\artwork\UberInventory">
+                    <Size>
+                        <AbsDimension x="20" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset><AbsDimension x="7" y="-6"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
+        <Scripts>
+            <OnClick>
+                GameTooltip:Hide();
+                UberInventory_Toggle_Main();
+            </OnClick>
+            <OnMouseDown>
+                _G[ self:GetName().."Icon" ]:SetTexCoord( 0.075, 0.925, 0.075, 0.925 );
+            </OnMouseDown>
+            <OnMouseUp>
+                _G[ self:GetName().."Icon" ]:SetTexCoord( 0, 1, 0, 1);
+            </OnMouseUp>
+            <OnEnter>
+                UberInventory_Minimap_OnEnter( self, "ANCHOR_BOTTOMLEFT" );
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide();
+            </OnLeave>
+        </Scripts>
+    </Button>
+
+<!-- Tooltip used for extracting level and skill info -->
+    <GameTooltip name="UberInventory_ItemTooltip" inherits="GameTooltipTemplate" hidden="false">
+        <Scripts>
+            <Onload>
+                self:SetOwner( UIParent, "ANCHOR_NONE" );
+            </Onload>
+            <OnUpdate>
+                    <!-- Do not handle OnUpdate events -->
+            </OnUpdate>
+        </Scripts>
+    </GameTooltip>
+
+</Ui>
