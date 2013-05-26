@@ -18,9 +18,6 @@
     Credits:
         A big 'Thank You' to all the people at Blizzard Entertainment
         for making World of Warcraft.
-
-    Revision:
-        $Id: UberInventory.lua 878 2013-03-06 11:20:43Z fmeus_lgs $
     ================================================================= --]]
 
 -- Local globals
@@ -769,7 +766,7 @@
             subclasses = { GetAuctionItemSubClasses( UIDROPDOWNMENU_MENU_VALUE[1]-1 ) };
 
             for key, value in pairs( subclasses ) do
-                -- Set new item
+                -- Set new tem
                 UBI_Item = { text = value,
                              value = { UIDROPDOWNMENU_MENU_VALUE[1], key },
                              owner = UberInventoryFrameClassDropDown,
@@ -803,7 +800,11 @@
     end;
 
 -- Returns an itemLink
-    function UberInventory_GetLink( itemid )
+    function UberInventory_GetLink( itemid, record )
+        if ( record and ( record.type == UBI_BATTLEPET_CLASS and record.item ~= 82800 ) ) then
+            return UberInventory_GetBattlePetLink( record );
+        end;
+
         -- Get name of item
         local itemName, _, itemQuality = GetItemInfo( itemid );
 
@@ -818,6 +819,33 @@
 
         -- Return itemLink
         return color.."|Hitem:"..itemid..":0:0:0:0:0:0:0|h["..itemName.."]|h|r";
+    end;
+
+-- Returns an Battlepet Link
+    function UberInventory_GetBattlePetLink( record )
+        -- Initialize
+        local health, power, speed = 0, 0, 0;
+
+        -- Get name of item
+        local name, icon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable = C_PetJournal.GetPetInfoBySpeciesID( record.itemid );
+
+        -- If the item has never been seen before, name will be nil
+        if ( name == nil ) then
+            name = UBI_ITEM_UNCACHED;
+        end;
+
+        -- Get additional battlepet info
+        if ( record.extra ) then
+            health = record.extra[1] or 0;
+            power = record.extra[2] or 0;
+            speed = record.extra[3] or 0;
+        end;
+
+        -- Determine item color
+        local color = ITEM_QUALITY_COLORS[record.quality].hex;
+
+        -- Return itemLink
+        return color.."|Hbattlepet:"..record.itemid..":"..record.level..":"..record.quality..":"..health..":"..power..":"..speed..":0x0000000000000000|h["..name.."]|h|r";
     end;
 
 -- Handle OnEnter event of the Minimap icon
@@ -1359,6 +1387,7 @@
         local bankCount, bagCount, mailCount, equipCount, voidCount = 0, 0, 0, 0, 0;
         local itemLink = nil;
         local questItem, questID = nil, nil;
+        local extra = {};
 
         -- Get itemLink
         if ( location == "mailbox" ) then
@@ -1416,6 +1445,19 @@
             end;
             local totalCount = bagCount + bankCount + mailCount + equipCount + ( voidCount or 0 );
 
+            -- Handle Battle Pets
+            if ( strfind( itemLink, "battlepet:" ) and itemId ~= 82800 ) then
+                local _, speciesID, level, breedQuality, maxHealth, power, speed, battlePetID = strsplit( ":", itemLink );
+                local name, icon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable = C_PetJournal.GetPetInfoBySpeciesID( speciesID );
+
+                itemName = name;
+                itemQuality = tonumber( breedQuality );
+                itemType = UBI_BATTLEPET_CLASS;
+                itemSubType = _G["BATTLE_PET_NAME_"..petType];
+                itemLevel = level;
+                extra = { maxHealth, power, speed };
+            end;
+
             -- Store the item information
             UBI_Items[itemId] = { ["itemid"] = tonumber( itemId ),
                                   ["name"] = itemName,
@@ -1430,7 +1472,8 @@
                                   ["subtype"] = itemSubType,
                                   ["total"] = totalCount,
                                   ["qitem"] = questItem,
-                                  ["qid"] = questID
+                                  ["qid"] = questID,
+                                  ["extra"] = extra
                                   };
         end;
     end;
@@ -1655,6 +1698,19 @@
                                 itemCount = UBI_Guildbank[UBI_GUILD]["Items"][itemId]["count"];
                             end;
 
+                            -- Handle Battle Pets
+                            if ( strfind( itemLink, "battlepet:" ) ) then
+                                local _, speciesID, level, breedQuality, maxHealth, power, speed, battlePetID = strsplit( ":", itemLink );
+                                local name, icon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable = C_PetJournal.GetPetInfoBySpeciesID( speciesID );
+
+                                itemName = name;
+                                itemQuality = tonumber( breedQuality );
+                                itemType = UBI_BATTLEPET_CLASS;
+                                itemSubType = _G["BATTLE_PET_NAME_"..petType];
+                                itemLevel = level;
+                                extra = { maxHealth, power, speed };
+                            end;
+
                             -- Store the item information
                             UBI_Guildbank[UBI_GUILD]["Items"][itemId] = { ["itemid"] = tonumber( itemId ),
                                                                           ["name"] = itemName,
@@ -1663,6 +1719,7 @@
                                                                           ["count"] = itemCount + count,
                                                                           ["type"] = itemType,
                                                                           ["subtype"] = itemSubType,
+                                                                          ["extra"] = extra,
                                                                           ["total"] = itemCount + count };
                         end;
                     end;
@@ -1720,6 +1777,9 @@
                                                                 ["type"] = value.type or itemType or UBI_ITEM_UNCACHED,
                                                                 ["subtype"] = value.subtype or itemSubType or UBI_ITEM_UNCACHED,
                                                                 ["total"] = value.count };
+
+            if ( value.extra ) then 
+            end;
         end;
 
         -- Update inventory frame if visible
@@ -2295,8 +2355,9 @@
 
         -- Guild cash changed
         if ( event == "GUILDBANK_UPDATE_MONEY" and IsInGuild() and UBI_Options["track_gb_data"] ) then
-            -- UberInventory_Message( 'Guild: '..( UBI_GUILD or '<Unknown>' ) );
-            UBI_Guildbank[UBI_GUILD]["Cash"] = GetGuildBankMoney();
+            if ( UBI_Guildbank and UBI_Guildbank[UBI_GUILD] and UBI_Guildbank[UBI_GUILD]["Cash"] ) then
+                UBI_Guildbank[UBI_GUILD]["Cash"] = GetGuildBankMoney();
+            end;
 
             -- Update cash info on screen
             if ( UberInventoryFrame:IsVisible() ) then
@@ -2409,7 +2470,7 @@
             elseif ( arg2:find( "UBI:GBITEM" ) and not UBI_GUILDBANK_OPENED ) then
                 -- Receiving Guildbank data (item), only receive data from latest sender
                 if ( UBI_GBSender == arg4 and UBI_Options["track_gb_data"] ) then
-                    local _, itemID, itemCount, itemName, itemType, itemSubtype, itemLevel, itemQuality = strsplit( " ", arg2 );
+                    local _, itemID, itemCount, itemName, itemType, itemSubtype, itemLevel, itemQuality, extra = strsplit( " ", arg2 );
                     UBI_GBData[itemID] = { ["itemid"] = tonumber( itemID ),
                                            ["count"] = tonumber( itemCount ),
                                            ["name"] = strgsub( itemName, "_", " " ),
@@ -2764,7 +2825,12 @@
         end;
 
         -- Set item image
-        SetItemButtonTexture( buttonObj, GetItemIcon( itemid ) );
+        if ( record["type"] == UBI_BATTLEPET_CLASS and itemid ~= 82800 ) then
+            local _, icon = C_PetJournal.GetPetInfoBySpeciesID( itemid );
+            SetItemButtonTexture( buttonObj, icon );
+        else
+            SetItemButtonTexture( buttonObj, GetItemIcon( itemid ) );
+        end;
 
         -- Set item name
         local itemcolor = ITEM_QUALITY_COLORS[record.quality];
@@ -2803,7 +2869,9 @@
         end;
 
         -- Mark usability onto the itembutton
-        UberInventory_MarkButton( buttonObj, itemid );
+        if ( record["type"] ~= UBI_BATTLEPET_CLASS ) then
+            UberInventory_MarkButton( buttonObj, itemid );
+        end;
 
         -- Mark quest item
         local questTexture = _G[ button.."IconQuestTexture" ];
@@ -3136,6 +3204,7 @@
     function UberInventory_Search( str )
         -- From global to local
         local itemText, msg, count = "", "", 0;
+        local icon;
 
         -- Display search criteria
         UberInventory_Message( UBI_ITEM_SEARCH:format( str ), true );
@@ -3152,8 +3221,15 @@
                                value.equip_count or 0,
                                value.void_count or 0 };
 
+                -- Set item image
+                if ( value.type == UBI_BATTLEPET_CLASS and value.itemid ~= 82800 ) then
+                    _, icon = C_PetJournal.GetPetInfoBySpeciesID( value.itemid );
+                else
+                    icon = GetItemIcon( value.itemid );
+                end;
+
                 -- Build search result
-                itemText = "|T"..GetItemIcon( value.itemid )..":0|t "..UberInventory_GetLink( value.itemid );
+                itemText = "|T"..icon..":0|t "..UberInventory_GetLink( value.itemid, value );
                 msg = "  "..itemText.." "..UBI_ITEM_COUNT_SINGLE:format( itemCounts[1] ).." (";
                 for loc = 2, #itemCounts do
                     if ( itemCounts[loc] > 0 ) then

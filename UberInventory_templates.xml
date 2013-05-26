@@ -94,7 +94,15 @@
                         UBI_TooltipItem = self:GetAttribute( "inventoryitem" );
                         UBI_TooltipLocation = self:GetAttribute( "location" );
                         GameTooltip:SetOwner( self, "ANCHOR_RIGHT");
-                        GameTooltip:SetHyperlink( UberInventory_GetLink( self:GetID() ) );
+                        if ( UBI_TooltipItem.type == UBI_BATTLEPET_CLASS and UBI_TooltipItem.itemid ~= 82800 ) then
+                            if ( UBI_TooltipItem.extra ) then
+                                BattlePetToolTip_Show(UBI_TooltipItem.itemid, UBI_TooltipItem.level, UBI_TooltipItem.quality, UBI_TooltipItem.extra[1] or 0, UBI_TooltipItem.extra[2] or 0, UBI_TooltipItem.extra[3] or 0, UBI_TooltipItem.name);
+                            else
+                                BattlePetToolTip_Show(UBI_TooltipItem.itemid, UBI_TooltipItem.level, UBI_TooltipItem.quality, 0, 0, 0, UBI_TooltipItem.name);
+                            end;
+                        else
+                            GameTooltip:SetHyperlink( UberInventory_GetLink( self:GetID() ) );
+                        end;
                         GameTooltip:Show();
                         UberInventory_Highlighter( UBI_TooltipItem.itemid, "on" );
                     </OnEnter>
@@ -103,6 +111,7 @@
                         UBI_TooltipItem = nil;
                         UBI_TooltipLocation = nil;
                         GameTooltip:Hide();
+                        BattlePetTooltip:Hide()
                     </OnLeave>
                     <OnClick>
                         local _, itemLink = GameTooltip:GetItem();

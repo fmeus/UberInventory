@@ -1,3 +1,7 @@
+Version 6.6 - TBD
+- Fixed: Fix for GUILDBANK_UPDATE_MONEY event related issue
+- Fixed: Battle Pets were not being tracked
+
 Version 6.5 - May 22, 2013
 - Changed: Updated for 5.3.0
 
