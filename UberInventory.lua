@@ -393,9 +393,6 @@
         elseif ( AucAdvanced ) then
             -- Auctioneer
             buyoutPrice = select( 6, AucAdvanced.Modules.Util.SimpleAuction.Private.GetItems( itemid ) ) or 0;
-        elseif ( TSMAPI ) then
-            -- TradeSkillMaster
-            buyoutPrice = select( 5, TSMAPI:GetData( "market", itemid ) ) or 0;
         end;
 
         return buyPrice, sellPrice, buyoutPrice;

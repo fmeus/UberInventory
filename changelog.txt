@@ -1,3 +1,6 @@
+Version 6.7 - August 22, 2013
+- Changed: Removed support for TradeSkillMaster (Ticket #17)
+
 Version 6.6 - May 28, 2013
 - Fixed: Fix for GUILDBANK_UPDATE_MONEY event related issue
 - Fixed: Battle Pets were not being tracked
