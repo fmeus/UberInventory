@@ -2617,6 +2617,7 @@
         end;
 
         UberInventory_Redraw_TooltipOptions();
+        UberInventory_Redraw_MinimapOptions();
     end;
 
 -- Redraw state for tooltip options
@@ -2628,7 +2629,14 @@
         UberInventory_SetState( _G[ "SettingQuestReward" ], state );
         UberInventory_SetState( _G[ "SettingRecipeDrop" ], state );
     end;
-   
+
+-- Redraw state for minimap options
+    function UberInventory_Redraw_MinimapOptions()
+        local state = _G[ "SettingShowMinimap" ]:GetChecked();
+
+        UberInventory_SetState( _G[ "SettingMinimap" ], state );
+    end;
+
 -- Save frame options
     function UberInventory_SaveOptions( frame )
         -- Initiliaze

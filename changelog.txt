@@ -1,3 +1,7 @@
+Version 6.8 - September x, 2013
+- Fixed: Minimap icon appeared when entering settings, even when it is set to hidden (Ticket #18)
+- Changed: Updated for 5.4.0
+
 Version 6.7 - August 22, 2013
 - Changed: Removed support for TradeSkillMaster (Ticket #17)
 

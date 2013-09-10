@@ -466,6 +466,11 @@
                                         <Offset><AbsDimension x="5" y="-5"/></Offset>
                                     </Anchor>
                                 </Anchors>
+                                <Scripts>
+                                    <OnClick>
+                                        UberInventory_Redraw_MinimapOptions();
+                                    </OnClick>
+                                </Scripts>
                             </CheckButton>
 
     <!-- Minimap button position slider -->
@@ -508,7 +513,6 @@
         <Scripts>
             <OnShow>
                 UberInventory_SetOptions( self );
-                UberInventoryMinimap:Show();
             </OnShow>
         </Scripts>
     </Frame>
