@@ -1,4 +1,4 @@
-Version 6.8 - September x, 2013
+Version 6.8 - September 11, 2013
 - Fixed: Minimap icon appeared when entering settings, even when it is set to hidden (Ticket #18)
 - Changed: Updated for 5.4.0
 
