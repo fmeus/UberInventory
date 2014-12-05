@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: UberInventory
 ## Version: 6.8
 ## Author: fmeus

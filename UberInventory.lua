@@ -59,6 +59,17 @@
         { id=-5, name = EXPANSION_NAME4, force = false },
         { id=738, name = UBI_TOKEN_LESSER_CHARM, icon = "inv_misc_coin_18", force = true, texcoord = { 0, 1, 0, 1 } }, -- Lesser Charm of Good Fortune
         { id=697, name = UBI_TOKEN_ELDER_CHARM, icon = "inv_misc_coin_17", force = true, texcoord = { 0, 1, 0, 1 } }, -- Elder Charm of Good Fortune
+        { id=777, name = UBI_TOKEN_TIMELESSCOIN, icon = "timelesscoin", force = true, texcoord = { 0, 1, 0, 1 } }, -- Timeless Coin
+        { id=776, name = UBI_TOKEN_WARFORGED_SEAL, icon = "inv_arcane_orb", force = true, texcoord = { 0, 1, 0, 1 } }, -- Warforged Seal
+        { id=752, name = UBI_TOKEN_MOGU_RUNE_OF_FATE, icon = "archaeology_5_0_mogucoin", force = true, texcoord = { 0, 1, 0, 1 } }, -- Mogu Rune of Fate
+
+        -- Warlords of Draenor
+        { id=-6, name = EXPANSION_NAME5, force = false },
+        { id=823, name = UBI_TOKEN_APEXIS_CRYSTAL, icon = "inv_apexis_draenor", force = true, texcoord = { 0, 1, 0, 1 } }, -- Apexis Crystal
+        { id=824, name = UBI_TOKEN_GARRISON_RESOURCE, icon = "inv_garrison_resource", force = true, texcoord = { 0, 1, 0, 1 } }, -- Garrison Resources
+        { id=994, name = UBI_TOKEN_SEAL_OF_TEMPERED_FATE, icon = "ability_animusorbs", force = true, texcoord = { 0, 1, 0, 1 } }, -- Seal of Tempered Fate
+
+-- Seal of tempered fate
     };
 
 -- Text and tooltips for checkbuttons
@@ -1550,6 +1561,15 @@
                 end;
             end;
 
+            -- Traverse reagent bag
+            if ( GetContainerNumSlots( REAGENTBANK_CONTAINER ) ) then
+                 slotCount = slotCount + GetContainerNumSlots( REAGENTBANK_CONTAINER );
+                 freeCount = freeCount + GetContainerNumFreeSlots( REAGENTBANK_CONTAINER );
+                 for slotID = 1, GetContainerNumSlots( REAGENTBANK_CONTAINER ) do
+                      UberInventory_Item( -3, slotID, "bank" );
+                 end;
+            end;
+
             -- Save slot count
             UBI_Options["bank_max"] = slotCount;
             UBI_Options["bank_free"] = freeCount;
@@ -2077,7 +2097,6 @@
         UberInventory_HookTooltip( ItemRefTooltip );
         UberInventory_HookTooltip( ShoppingTooltip1 );
         UberInventory_HookTooltip( ShoppingTooltip2 );
-        UberInventory_HookTooltip( ShoppingTooltip3 );
 
         -- Hook mail stuff
         UBI_Hooks["ReturnInboxItem"] = ReturnInboxItem;
@@ -2430,8 +2449,9 @@
             UberInventory_UpdateInventory( "bag" );
 
             -- If bank is open rescan item
-            if ( arg1 == BANK_CONTAINER or ( arg1 >= 5 and arg1 <= 11 ) ) then UberInventory_Save_Bank(); end;
-
+            -- if ( arg1 == BANK_CONTAINER or ( arg1 >= 5 and arg1 <= 11 ) ) then UberInventory_Save_Bank(); end;
+            if ( ( arg1 == BANK_CONTAINER) or ( arg1 == REAGENTBANK_CONTAINER ) or ( arg1 >= 5 and arg1 <= 11 ) ) then UberInventory_Save_Bank(); end;
+            
             -- If guildbank is open rescan it
             if ( UBI_GUILDBANK_OPENED ) then UberInventory_Save_Guildbank( 'UBI_RESCAN_GUILDBANK' ); end;
             return;

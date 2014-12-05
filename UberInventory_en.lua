@@ -176,6 +176,12 @@
     UBI_TOKEN_ZEN_JEWELCRAFTING = "Zen Jewelcrafter's Token";
     UBI_TOKEN_ELDER_CHARM = "Elder Charm of Good Fortune";
     UBI_TOKEN_LESSER_CHARM = "Lesser Charm of Good Fortune";
+    UBI_TOKEN_TIMELESSCOIN = "Timeless Coin";
+    UBI_TOKEN_WARFORGED_SEAL = "Warforged Seal";
+    UBI_TOKEN_MOGU_RUNE_OF_FATE = "Mogu Rune of Fate";
+    UBI_TOKEN_APEXIS_CRYSTAL = "Apexis Crystal";
+    UBI_TOKEN_GARRISON_RESOURCE = "Garrison Resources";
+    UBI_TOKEN_SEAL_OF_TEMPERED_FATE = "Seal of Tempered Fate";
 
     -- Miscellaneous
     UBI_MOVEMENT = "Hold down shift key to move frame to a different location";
