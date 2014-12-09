@@ -169,13 +169,14 @@
                              [2] = CharacterBag1Slot,
                              [3] = CharacterBag2Slot,
                              [4] = CharacterBag3Slot,
-                             [5] = BankFrameBag1,
-                             [6] = BankFrameBag2,
-                             [7] = BankFrameBag3,
-                             [8] = BankFrameBag4,
-                             [9] = BankFrameBag5,
-                             [10] = BankFrameBag6,
-                             [11] = BankFrameBag7 };
+                             [5] = BankSlotsFrame["Bag1"],
+                             [6] = BankSlotsFrame["Bag2"],
+                             [7] = BankSlotsFrame["Bag3"],
+                             [8] = BankSlotsFrame["Bag4"],
+                             [9] = BankSlotsFrame["Bag5"],
+                             [10] = BankSlotsFrame["Bag6"],
+                             [11] = BankSlotsFrame["Bag7"]
+                             };
     UBI_Highlights = {};
 
 -- Quality names (using Blizzards localized strings) and colors
