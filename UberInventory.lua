@@ -2406,7 +2406,7 @@
         end;
 
         -- Update Guildbank information
-        if ( ( event == "GUILDBANK_UPDATE_TABS" or event == "GUILDBANKBAGSLOTS_CHANGED" ) and UBI_GUILDBANK_OPENED and UBI_Options["track_gb_data"] ) then
+        if ( ( event == "GUILDBANK_UPDATE_TABS" or event == "GUILDBANKBAGSLOTS_CHANGED" or event == "PLAYERREAGENTBANKSLOTS_CHANGED" ) and UBI_GUILDBANK_OPENED and UBI_Options["track_gb_data"] ) then
             -- Send start message
             UberInventory_Save_Guildbank( event );
             return;

@@ -1,6 +1,6 @@
 ## Interface: 60000
 ## Title: UberInventory
-## Version: 6.9
+## Version: 7.0
 ## Author: fmeus
 ## Notes: UberInventory lets you view your inventory at all items (includes your bags, bank, keyring and mailbox). Also vendor prices (when available) will be presented at any item.
 ## Notes-zhTW: 記錄你所有角色的物品（包括背包、銀行、鑰匙、信箱與公會銀行），並顯示物品賣價。

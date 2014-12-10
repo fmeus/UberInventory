@@ -69,6 +69,10 @@
 
                           -- Pandarian toon has selected faction
                            "NEUTRAL_FACTION_SELECT_RESULT",
+
+                          -- Reagents
+                          "REAGENTBANK_UPDATE",
+                          "PLAYERREAGENTBANKSLOTS_CHANGED",
                          };
 
 -- Drop rates
