@@ -65,14 +65,15 @@
                            "VOID_STORAGE_OPEN",
                            "VOID_STORAGE_CLOSE",
                            "VOID_STORAGE_UPDATE",
+                           "VOID_TRANSFER_DONE",
                            "VOID_STORAGE_CONTENTS_UPDATE",
 
-                          -- Pandarian toon has selected faction
+                           -- Pandarian toon has selected faction
                            "NEUTRAL_FACTION_SELECT_RESULT",
 
-                          -- Reagents
-                          "REAGENTBANK_UPDATE",
-                          "PLAYERREAGENTBANKSLOTS_CHANGED",
+                           -- Reagents
+                           "REAGENTBANK_UPDATE",
+                           "PLAYERREAGENTBANKSLOTS_CHANGED",
                          };
 
 -- Drop rates

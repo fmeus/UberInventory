@@ -1404,7 +1404,7 @@
         elseif ( location == "equip" ) then
             itemLink = GetInventoryItemLink( "player", slotID );
         elseif ( location == "void" ) then
-            local itemID = GetVoidItemInfo( slotID );
+            local itemID = GetVoidItemInfo( bagID, slotID );
             if ( itemID ) then
                 itemLink = UberInventory_GetLink( itemID );
             end;
@@ -1520,8 +1520,10 @@
         UberInventory_ResetCount( "void" );
 
         -- Traverse void storage slots
-        for voidID = 1, 80 do
-            UberInventory_Item( 0, voidID, "void" );
+        for tabID = 2, 1, -1 do
+            for voidID = 1, 80 do
+                UberInventory_Item( tabID, voidID, "void" );
+            end;
         end;
 
         -- Update inventory frame if visible
@@ -2458,7 +2460,7 @@
         end;
 
         -- Void Storage events
-        if ( event == "VOID_STORAGE_OPEN" or event == "VOID_STORAGE_CLOSE" or event == "VOID_STORAGE_UPDATE" or event == "VOID_STORAGE_CONTENTS_UPDATE" ) then
+        if ( event == "VOID_STORAGE_OPEN" or event == "VOID_STORAGE_CLOSE" or event == "VOID_STORAGE_UPDATE" or event == "VOID_TRANSFER_DONE" or event == "VOID_STORAGE_CONTENTS_UPDATE" ) then
             UberInventory_Save_VoidStorage( event );
         end;
 
