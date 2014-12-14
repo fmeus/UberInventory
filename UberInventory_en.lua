@@ -56,7 +56,8 @@
                       "Bank",
                       "Mailbox",
                       "Equipped",
-                      "Void Storage" };
+                      "Void Storage",
+                      "Reagents Bank" };
 
     -- Dropdown box classes (result of GetAuctionItemClasses is already localized)
     UBI_CLASSES = { "All classes", GetAuctionItemClasses() };
@@ -74,7 +75,7 @@
     UBI_ITEM_RECIPE_SOLD_BY = "Sold for %s by"; 
     UBI_ITEM_RECIPE_REWARD_FROM = "Reward from quest"; 
     UBI_ITEM_RECIPE_DROP_BY = "Dropped by"; 
-    UBI_ITEM_COUNT = "Count: %d (%d / %d / %d / %d / %d)";
+    UBI_ITEM_COUNT = "Count: %d (%d / %d / %d / %d / %d / %d)";
     UBI_ITEM_COUNT_SINGLE = "Count: %d";
     UBI_ITEM_SEARCH = "Invertory search for '%s'";
     UBI_ITEM_SEARCH_NONE = "No items found";
@@ -87,8 +88,10 @@
     UBI_NO_GUILDALT = "No guild/alt selected";
     UBI_BAG = "Bag";
     UBI_BANK = "Bank";
+    UBI_REAGENT = "Reagent Bank";
     UBI_SLOT_BAGS = UBI_BAG.." slots: "..UBI_FREE.." free";
     UBI_SLOT_BANK = UBI_BANK.." slots: "..UBI_FREE.." free";
+    UBI_SLOT_REAGENTBANK = UBI_REAGENT.." slots: "..UBI_FREE.." free";
     UBI_ALL_QUALITIES = "All qualities";
     UBI_MAIL_CASH = "Received %s from %s (%s)";
 

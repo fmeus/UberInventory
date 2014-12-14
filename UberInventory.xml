@@ -571,7 +571,7 @@
                     </Size>
                     <Anchors>
                         <Anchor point="BOTTOMLEFT" relativeTo="$parent">
-                            <Offset><AbsDimension x="16" y="55"/></Offset>
+                            <Offset><AbsDimension x="16" y="71"/></Offset>
                         </Anchor>
                     </Anchors>
                 </FontString>
@@ -644,6 +644,19 @@
                         </Anchor>
                     </Anchors>
                 </FontString>
+
+<!-- Reagent Bank slot info -->
+                <FontString name="$parentReagentBankSlots" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_SLOT_REAGENTBANK">
+                    <Size>
+                        <AbsDimension x="240" y="11"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentBankSlots" relativePoint="BOTTOMLEFT">
+                            <Offset><AbsDimension x="0" y="-5"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+
             </Layer>
         </Layers>
 

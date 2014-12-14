@@ -227,7 +227,7 @@
 <!-- Dialog template -->
     <Frame name="UberInventory_Dialog" hidden="true" virtual="true" frameStrata="DIALOG" parent="UIParent">
         <Size>
-            <AbsDimension x="640" y="506"/>
+            <AbsDimension x="640" y="522"/>
         </Size>
         <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
             <BackgroundInsets>

@@ -69,7 +69,7 @@ if (GetLocale()=="zhTW") then
     UBI_ITEM_RECIPE_SOLD_BY = "賣價: %s 商人:"; -- New in 1.3
     UBI_ITEM_RECIPE_REWARD_FROM = "任務獎勵"; -- New in 1.3
     UBI_ITEM_RECIPE_DROP_BY = "掉落自"; -- New in 1.3
-    UBI_ITEM_COUNT = "合計%d (%d / %d / %d / %d / %d)";
+    UBI_ITEM_COUNT = "合計%d (%d / %d / %d / %d / %d / %d)";
     UBI_ITEM_COUNT_SINGLE = "合計%d";
     UBI_ITEM_SEARCH = "搜尋名稱為「%s」的物品";
     UBI_ITEM_SEARCH_NONE = "找不到物品";

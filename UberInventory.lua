@@ -317,6 +317,18 @@
                 UBI_Options["pricing_data"] = "vendor";
             end;
 
+            -- Upgrade to version 7.1
+            if ( UBI_Options["version"] < "7.1" ) then
+                -- Play warning sound
+                PlaySound( "RaidWarning" );
+
+                -- Wipe all data
+                UBI_Data = {};
+
+                -- Alert user of data wipe
+                UberInventory_Message( C_RED.."The data storage has been reset. Please revisit all your characters (including Bank, Mailbox, Void Storage) to collect all item data."..C_CLOSE, true );
+            end;
+
             -- Set current version
             UBI_Options["version"] = UBI_VERSION;
         end;
@@ -388,6 +400,7 @@
     function UberInventory_Update_SlotCount()
         UberInventoryFrameBagSlots:SetFormattedText( UBI_SLOT_BAGS, UBI_Options["bag_free"] , UBI_Options["bag_max"] );
         UberInventoryFrameBankSlots:SetFormattedText( UBI_SLOT_BANK, UBI_Options["bank_free"], UBI_Options["bank_max"] );
+        UberInventoryFrameReagentBankSlots:SetFormattedText( UBI_SLOT_REAGENTBANK, UBI_Options["reagent_free"], UBI_Options["reagent_max"] );
     end;
 
 -- Fetch item prices (buy, sell)
@@ -621,7 +634,7 @@
             -- Set new item
             UBI_Item = { text = "  "..value,
                          value = UBI_LocationCounter,
-                         icon = UBI_LOCATION_TEXTURE[6],
+                         icon = UBI_LOCATION_TEXTURE[7],
                          notCheckable = 1,
                          func = UberInventory_Locations_OnClick };
 
@@ -660,7 +673,7 @@
 
             UBI_Item = { text = "  "..value..level,
                          value = UBI_LocationCounter,
-                         icon = UBI_LOCATION_TEXTURE[6], -- Faction icon
+                         icon = UBI_LOCATION_TEXTURE[7], -- Faction icon
                          notCheckable = 1,
                          func = UberInventory_Locations_OnClick };
 
@@ -870,6 +883,7 @@
         -- Add slot information
         GameTooltip:AddDoubleLine( UBI_BAG, UBI_FREE:format( UBI_Options["bag_free"] , UBI_Options["bag_max"] ) );
         GameTooltip:AddDoubleLine( UBI_BANK, UBI_FREE:format( UBI_Options["bank_free"] , UBI_Options["bank_max"] ) );
+        GameTooltip:AddDoubleLine( UBI_REAGENT, UBI_FREE:format( UBI_Options["reagent_free"] , UBI_Options["reagent_max"] ) );
 
         -- Add cash inforamtion
         GameTooltip:AddDoubleLine( UBI_CASH_TOTAL, GetCoinTextureString( GetMoney() + UBI_Money["mail"] ) );
@@ -933,12 +947,13 @@
 
                 -- Only apply filters when searching from then inventory frame
                 if ( not cmdline ) then
-                    -- Filter on location (3 = Character, 4 = Bags, 5 = Banks, 6 = Mail, 7 = Equipped, 8 = Void Storage )
+                    -- Filter on location (3 = Character, 4 = Bags, 5 = Banks, 6 = Mail, 7 = Equipped, 8 = Void Storage, 9 = Reagent Bank )
                     if ( ( UBI_FILTER_LOCATIONS == 4 and record.bag_count == 0 ) or
                          ( UBI_FILTER_LOCATIONS == 5 and record.bank_count == 0 ) or
                          ( UBI_FILTER_LOCATIONS == 6 and record.mailbox_count == 0 ) or
                          ( UBI_FILTER_LOCATIONS == 7 and record.equip_count == 0 ) or
-                         ( UBI_FILTER_LOCATIONS == 8 and ( record.void_count or 0 ) == 0 ) ) then
+                         ( UBI_FILTER_LOCATIONS == 8 and ( record.void_count or 0 ) == 0 ) or
+                         ( UBI_FILTER_LOCATIONS == 9 and ( record.reagent_count or 0 ) == 0 ) ) then
                         include_item = false;
                     end;
 
@@ -1088,13 +1103,14 @@
         if ( not UBI_Options["show_tooltip"] ) then return; end;
 
         -- Function for adding counts per location (only non-zero locations are added to the tooltip)
-        local function AddLocationInfo( tooltip, bag, bank, mailbox, equipped, void )
+        local function AddLocationInfo( tooltip, bag, bank, mailbox, equipped, void, reagent )
             tooltip:AddLine( "|n" );
             if ( bag > 0 ) then tooltip:AddDoubleLine( UBI_LOCATIONS[1], bag ); tooltip:AddTexture( UBI_LOCATION_TEXTURE[1] ); end;
             if ( bank > 0 ) then tooltip:AddDoubleLine( UBI_LOCATIONS[2], bank ); tooltip:AddTexture( UBI_LOCATION_TEXTURE[2] ); end;
             if ( mailbox > 0 ) then tooltip:AddDoubleLine( UBI_LOCATIONS[3], mailbox ); tooltip:AddTexture( UBI_LOCATION_TEXTURE[3] ); end;
             if ( equipped > 0 ) then tooltip:AddDoubleLine( UBI_LOCATIONS[4], equipped ); tooltip:AddTexture( UBI_LOCATION_TEXTURE[4] ); end;
             if ( ( void or 0 ) > 0 ) then tooltip:AddDoubleLine( UBI_LOCATIONS[5], void ); tooltip:AddTexture( UBI_LOCATION_TEXTURE[5] ); end;
+            if ( ( reagent or 0 ) > 0 ) then tooltip:AddDoubleLine( UBI_LOCATIONS[6], reagent ); tooltip:AddTexture( UBI_LOCATION_TEXTURE[6] ); end;
         end;
 
         -- Set smaller font for vendor, quest and drop information
@@ -1244,8 +1260,9 @@
                                              UBI_TooltipItem["bank_count"],
                                              UBI_TooltipItem["mailbox_count"],
                                              UBI_TooltipItem["equip_count"],
-                                             UBI_TooltipItem["void_count"] );
-                            totalCount = totalCount + UBI_TooltipItem["bag_count"] + UBI_TooltipItem["bank_count"] + UBI_TooltipItem["mailbox_count"] + UBI_TooltipItem["equip_count"] + ( UBI_TooltipItem["void_count"] or 0 );
+                                             UBI_TooltipItem["void_count"],
+                                             UBI_TooltipItem["reagent_count"] );
+                            totalCount = totalCount + UBI_TooltipItem["bag_count"] + UBI_TooltipItem["bank_count"] + UBI_TooltipItem["mailbox_count"] + UBI_TooltipItem["equip_count"] + ( UBI_TooltipItem["void_count"] or 0 ) + ( UBI_TooltipItem["reagent_count"] or 0 );
                             spacerAdded = true;
                         end;
                     elseif ( UBI_Items[itemId] ) then
@@ -1254,9 +1271,9 @@
                                          UBI_Items[itemId]["bank_count"],
                                          UBI_Items[itemId]["mailbox_count"],
                                          UBI_Items[itemId]["equip_count"],
-                                         UBI_Items[itemId]["void_count"]
-                                         );
-                        totalCount = totalCount + UBI_Items[itemId]["bag_count"] + UBI_Items[itemId]["bank_count"] + UBI_Items[itemId]["mailbox_count"] + UBI_Items[itemId]["equip_count"] + ( UBI_Items[itemId]["void_count"] or 0 );
+                                         UBI_Items[itemId]["void_count"],
+                                         UBI_Items[itemId]["reagent_count"] );
+                        totalCount = totalCount + UBI_Items[itemId]["bag_count"] + UBI_Items[itemId]["bank_count"] + UBI_Items[itemId]["mailbox_count"] + UBI_Items[itemId]["equip_count"] + ( UBI_Items[itemId]["void_count"] or 0 ) + ( UBI_Items[itemId]["reagent_count"] or 0 );
                         spacerAdded = true;
                     end;
     
@@ -1271,7 +1288,7 @@
                         -- Add the count and icon for the current alt
                         totalCount = totalCount + UBI_Items[itemId].total;
                         tooltip:AddDoubleLine( UBI_PLAYER, UBI_Items[itemId].total );
-                        tooltip:AddTexture( UBI_LOCATION_TEXTURE[6] );
+                        tooltip:AddTexture( UBI_LOCATION_TEXTURE[7] );
                     end;
     
                     -- Add information for alt characters
@@ -1288,12 +1305,12 @@
     
                                 -- Fix total
                                 record = UBI_Data[UBI_REALM][value]["Items"][itemId];
-                                record.total = record.bag_count + record.bank_count + record.mailbox_count + record.equip_count + (record.void_count or 0);
+                                record.total = record.bag_count + record.bank_count + record.mailbox_count + record.equip_count + (record.void_count or 0) + (record.reagent_count or 0);
                                 totalCount = totalCount + record.total;
     
                                 -- Add the count and icon for the current alt
                                 tooltip:AddDoubleLine( value, record.total );
-                                tooltip:AddTexture( UBI_LOCATION_TEXTURE[6] );
+                                tooltip:AddTexture( UBI_LOCATION_TEXTURE[7] );
                             end;
                         end;
                     end;
@@ -1311,7 +1328,7 @@
                             -- Add the count and icon for the current guildbank
                             totalCount = totalCount + UBI_Guildbank[value]["Items"][itemId].total;
                             tooltip:AddDoubleLine( C_GREY..value..C_CLOSE, C_GREY..UBI_Guildbank[value]["Items"][itemId].total..C_CLOSE );
-                            tooltip:AddTexture( UBI_LOCATION_TEXTURE[6] );
+                            tooltip:AddTexture( UBI_LOCATION_TEXTURE[7] );
                         end;
                     end;
     
@@ -1392,7 +1409,7 @@
         local UBI_Items = UBI_Items;
 
         -- Initialize
-        local bankCount, bagCount, mailCount, equipCount, voidCount = 0, 0, 0, 0, 0;
+        local bankCount, bagCount, mailCount, equipCount, voidCount, reagentCount = 0, 0, 0, 0, 0, 0;
         local itemLink = nil;
         local questItem, questID = nil, nil;
         local extra = {};
@@ -1437,6 +1454,7 @@
                 mailCount = ( UBI_Items[itemId]["mailbox_count"] or 0 );
                 equipCount = ( UBI_Items[itemId]["equip_count"] or 0 );
                 voidCount = ( UBI_Items[itemId]["void_count"] or 0 );
+                reagentCount = ( UBI_Items[itemId]["reagent_count"] or 0 );
             end;
 
             -- Sort out itemCount
@@ -1450,8 +1468,10 @@
                 equipCount = equipCount + itemCount;
             elseif ( location == "void" ) then
                 voidCount = voidCount + ( itemCount or 1 );
+            elseif ( location == "reagent" ) then
+                reagentCount = reagentCount + ( itemCount or 1 );
             end;
-            local totalCount = bagCount + bankCount + mailCount + equipCount + ( voidCount or 0 );
+            local totalCount = bagCount + bankCount + mailCount + equipCount + ( voidCount or 0 ) + ( reagentCount or 0 );
 
             -- Handle Battle Pets
             if ( strfind( itemLink, "battlepet:" ) and itemId ~= 82800 ) then
@@ -1476,6 +1496,7 @@
                                   ["mailbox_count"] = mailCount,
                                   ["equip_count"] = equipCount,
                                   ["void_count"] = voidCount,
+                                  ["reagent_count"] = reagentCount,
                                   ["type"] = itemType,
                                   ["subtype"] = itemSubType,
                                   ["total"] = totalCount,
@@ -1532,6 +1553,38 @@
         end;
     end;
 
+-- Handle Reagent Bank items
+    function UberInventory_Save_ReagentBank()
+        if ( not UBI_ACTIVE ) then return; end;
+
+        -- Intialize
+        local slotCount, freeCount = 0, 0;
+
+        -- Reset reagent bank counts
+        UberInventory_ResetCount( "reagent" );
+
+        -- Traverse reagent bag
+        if ( GetContainerNumSlots( REAGENTBANK_CONTAINER ) ) then
+            slotCount = GetContainerNumSlots( REAGENTBANK_CONTAINER );
+            for slotID = 1, GetContainerNumSlots( REAGENTBANK_CONTAINER ) do
+                if ( not GetContainerItemLink( REAGENTBANK_CONTAINER, slotID ) ) then
+                    freeCount = freeCount + 1;
+                end;
+
+                UberInventory_Item( REAGENTBANK_CONTAINER, slotID, "reagent" );
+            end;
+        end;
+
+        -- Save slot count
+        UBI_Options["reagent_max"] = slotCount;
+        UBI_Options["reagent_free"] = freeCount;
+
+        -- Update inventory frame if visible
+        if ( UberInventoryFrame:IsVisible() ) then
+            UberInventory_DisplayItems();
+        end;
+    end;
+
 -- Handle Bank items
     function UberInventory_Save_Bank()
         if ( not UBI_ACTIVE ) then return; end;
@@ -1561,15 +1614,6 @@
                         UberInventory_Item( bagID, slotID, "bank" );
                     end;
                 end;
-            end;
-
-            -- Traverse reagent bag
-            if ( GetContainerNumSlots( REAGENTBANK_CONTAINER ) ) then
-                 slotCount = slotCount + GetContainerNumSlots( REAGENTBANK_CONTAINER );
-                 freeCount = freeCount + GetContainerNumFreeSlots( REAGENTBANK_CONTAINER );
-                 for slotID = 1, GetContainerNumSlots( REAGENTBANK_CONTAINER ) do
-                      UberInventory_Item( -3, slotID, "bank" );
-                 end;
             end;
 
             -- Save slot count
@@ -1901,7 +1945,7 @@
         -- Remove items for which bag_count, bank_count, mailbox_count and equip_count equals 0
         for key, record in pairs( UBI_Items ) do
             if ( record.name ) then
-                if ( record.bag_count + record.bank_count + record.mailbox_count + record.equip_count + ( record.void_count or 0 )== 0 ) then
+                if ( record.bag_count + record.bank_count + record.mailbox_count + record.equip_count + ( record.void_count or 0 ) + ( record.reagent_count or 0 ) == 0 ) then
                     -- Remove the item
                     UBI_Items[key] = nil;
                 end;
@@ -1926,6 +1970,9 @@
         end;
         if ( location == "equip" or location == "all" ) then
             UberInventory_Save_Equipped();
+        end;
+        if ( location == "reagent" or location == "all" ) then
+            UberInventory_Save_ReagentBank();
         end;
 
         -- Store last update info
@@ -1991,6 +2038,8 @@
                                                            ["bag_free"] = 0,
                                                            ["bank_max"] = 0,
                                                            ["bank_free"] = 0,
+                                                           ["reagent_max"] = 0,
+                                                           ["reagent_free"] = 0,
                                                            ["minimap"] = UBI_Defaults["minimap"],
                                                            ["alpha"] = UBI_Defaults["alpha"],
                                                            ["take_money"] = UBI_Defaults["take_money"],
@@ -2175,6 +2224,7 @@
                                                                                     ["mailbox_count"] = tempItem["mailbox_count"] + value,
                                                                                     ["equip_count"] = tempItem["equip_count"],
                                                                                     ["void_count"] = ( tempItem["void_count"] or 0 ),
+                                                                                    ["reagent_count"] = ( tempItem["reagent_count"] or 0 ),
                                                                                     ["type"] = itemClass,
                                                                                     ["subtype"] = itemSubclass,
                                                                                     ["total"] = tempItem["total"] + value,
@@ -2191,6 +2241,7 @@
                                                                                     ["mailbox_count"] = value,
                                                                                     ["equip_count"] = 0,
                                                                                     ["void_count"] = 0,
+                                                                                    ["reagent_count"] = 0,
                                                                                     ["type"] = itemClass,
                                                                                     ["subtype"] = itemSubclass,
                                                                                     ["total"] = value,
@@ -2350,6 +2401,12 @@
         end;
 
         -- Items in the bank have changed
+        if ( event == "PLAYERREAGENTBANKSLOTS_CHANGED" ) then
+            UberInventory_UpdateInventory( "reagent" );
+            return;
+        end;
+
+        -- Items in the bank have changed
         if ( event == "PLAYERBANKSLOTS_CHANGED" or event == "PLAYERBANKBAGSLOTS_CHANGED" ) then
             UberInventory_UpdateInventory( "bank" );
             return;
@@ -2408,7 +2465,7 @@
         end;
 
         -- Update Guildbank information
-        if ( ( event == "GUILDBANK_UPDATE_TABS" or event == "GUILDBANKBAGSLOTS_CHANGED" or event == "PLAYERREAGENTBANKSLOTS_CHANGED" ) and UBI_GUILDBANK_OPENED and UBI_Options["track_gb_data"] ) then
+        if ( ( event == "GUILDBANK_UPDATE_TABS" or event == "GUILDBANKBAGSLOTS_CHANGED" ) and UBI_GUILDBANK_OPENED and UBI_Options["track_gb_data"] ) then
             -- Send start message
             UberInventory_Save_Guildbank( event );
             return;
@@ -2451,7 +2508,6 @@
             UberInventory_UpdateInventory( "bag" );
 
             -- If bank is open rescan item
-            -- if ( arg1 == BANK_CONTAINER or ( arg1 >= 5 and arg1 <= 11 ) ) then UberInventory_Save_Bank(); end;
             if ( ( arg1 == BANK_CONTAINER) or ( arg1 == REAGENTBANK_CONTAINER ) or ( arg1 >= 5 and arg1 <= 11 ) ) then UberInventory_Save_Bank(); end;
             
             -- If guildbank is open rescan it
@@ -2839,6 +2895,7 @@
         local mailCount = record["mailbox_count"] or 0;
         local equipCount = record["equip_count"] or 0;
         local voidCount = record["void_count"] or 0;
+        local reagentCount = record["reagent_count"] or 0;
         local guildCount = record["count"] or 0;
         local totalCount = record["total"] or 0;
 
@@ -2866,7 +2923,7 @@
 
         -- Set item count
         if ( UBI_LocationList[UBI_FILTER_LOCATIONS].type == "current" or UBI_LocationList[UBI_FILTER_LOCATIONS].type == "character" ) then
-            _G[ button.."ItemCount" ]:SetFormattedText( UBI_ITEM_COUNT, totalCount, bagCount, bankCount, mailCount, equipCount, voidCount );
+            _G[ button.."ItemCount" ]:SetFormattedText( UBI_ITEM_COUNT, totalCount, bagCount, bankCount, mailCount, equipCount, voidCount, reagentCount );
         else
             _G[ button.."ItemCount" ]:SetFormattedText( UBI_ITEM_COUNT_SINGLE, totalCount );
         end;
@@ -3246,7 +3303,8 @@
                                value.bank_count or 0,
                                value.mailbox_count or 0,
                                value.equip_count or 0,
-                               value.void_count or 0 };
+                               value.void_count or 0,
+                               value.reagent_count or 0, };
 
                 -- Set item image
                 if ( value.type == UBI_BATTLEPET_CLASS and value.itemid ~= 82800 ) then

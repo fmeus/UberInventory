@@ -68,7 +68,7 @@ if (GetLocale()=="ruRU") then
     UBI_ITEM_RECIPE_SOLD_BY = "Продаётся за %s"; -- New in 1.3
     UBI_ITEM_RECIPE_REWARD_FROM = "Награда от поисков"; -- New in 1.3
     UBI_ITEM_RECIPE_DROP_BY = "Падает"; -- New in 1.3
-    UBI_ITEM_COUNT = "Кол-во: %d (%d / %d / %d / %d / %d)";
+    UBI_ITEM_COUNT = "Кол-во: %d (%d / %d / %d / %d / %d / %d)";
     UBI_ITEM_COUNT_SINGLE = "Кол-во: %d";
     UBI_ITEM_SEARCH = "Invertory search for '%s'";
     UBI_ITEM_SEARCH_NONE = "Никакие пункты не найдены";

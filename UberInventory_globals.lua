@@ -201,6 +201,7 @@
                              UBI_IMG_PATH.."mail",
                              UBI_IMG_PATH.."equipped",
                              UBI_IMG_PATH.."voidstorage",
+                             UBI_IMG_PATH.."reagents",
                              UBI_IMG_PATH..string.lower( UBI_FACTION ) };
 
 -- Frame/tooltip related options
