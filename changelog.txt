@@ -1,3 +1,6 @@
+Version 7.2
+- Changed: Updated for 6.2
+
 Version 7.1
 - Changed: Moved Reagent Bank data to seperate group within UberInventory (required wipe of already stored data)
 - Fixed: Tracking Voidstorage data
