@@ -27,7 +27,7 @@
     local pairs, tinsert, tsort, wipe = pairs, table.insert, table.sort, wipe;
 
 -- Information on tokens
-    local UBI_Currencies = { 
+    local UBI_Currencies = {
         --Player vs Player
         { id=-1, name = PLAYER_V_PLAYER, force = false },
         { id=390, name = UBI_TOKEN_CONQUEST_POINTS, icon = "PVPCurrency-Conquest-"..UBI_FACTION, force = true, texcoord = { 0, 1, 0, 1 } }, -- Conquest Points
@@ -68,8 +68,8 @@
         { id=823, name = UBI_TOKEN_APEXIS_CRYSTAL, icon = "inv_apexis_draenor", force = true, texcoord = { 0, 1, 0, 1 } }, -- Apexis Crystal
         { id=824, name = UBI_TOKEN_GARRISON_RESOURCE, icon = "inv_garrison_resource", force = true, texcoord = { 0, 1, 0, 1 } }, -- Garrison Resources
         { id=994, name = UBI_TOKEN_SEAL_OF_TEMPERED_FATE, icon = "ability_animusorbs", force = true, texcoord = { 0, 1, 0, 1 } }, -- Seal of Tempered Fate
-
--- Seal of tempered fate
+        { id=1101, name = UBI_TOKEN_OIL, icon = "garrison_oil", force = true, texcoord = { 0, 1, 0, 1 } }, -- Oil
+        { id=1129, name = UBI_TOKEN_SEAL_OF_INEVITABLE_FATE, icon = "achievement_battleground_templeofkotmogu_02_green", force = true, texcoord = { 0, 1, 0, 1 } }, -- Seal of Inevitable Fate
     };
 
 -- Text and tooltips for checkbuttons
@@ -157,147 +157,6 @@
             -- Show upgrade message
             UberInventory_Message( UBI_UPGRADE, true );
 
-            -- Upgrade to version 1.0
-            if ( UBI_Options["version"] < "1.0" ) then
-                if ( UBI_Data["ItemPrices"] ) then
-                    UBI_Data["ItemPrices"] = nil;
-                end;
-            end;
-
-            -- Upgrade to version 1.3
-            if ( UBI_Options["version"] < "1.3" ) then
-                if ( not UBI_Options["show_recipe_prices"] ) then
-                    UBI_Options["show_recipe_prices"] = true;
-                end;
-                if ( not UBI_Options["show_recipe_reward"] ) then
-                    UBI_Options["show_recipe_reward"] = true;
-                end;
-                if ( not UBI_Options["show_recipe_drop"] ) then
-                    UBI_Options["show_recipe_drop"] = true;
-                end;
-            end;
-
-            -- Upgrade to version 1.6
-            if ( UBI_Options["version"] < "1.6" ) then
-                if ( not UBI_Options["send_gb_data"] ) then
-                    UBI_Options["send_gb_data"] = true;
-                end;
-                if ( not UBI_Options["receive_gb_data"] ) then
-                    UBI_Options["receive_gb_data"] = true;
-                end;
-                if ( not UBI_Options["warn_mailexpire"] ) then
-                    UBI_Options["warn_mailexpire"] = true;
-                end;
-            end;
-
-            -- Upgrade to version 1.7
-            if ( UBI_Options["version"] < "1.7" ) then
-                for key, value in pairs( UBI_Data[UBI_REALM] ) do
-                    if ( key ~= "Guildbank" ) then
-                        -- Upgrade character data
-                        for key, value in pairs( value["Items"] ) do
-                            value["itemid"] = tonumber( value["itemid"] );
-                        end;
-                    else
-                        -- Upgrade guildbank data
-                        for key, value in pairs( value ) do
-                            for key, value in pairs( value["Items"] ) do
-                                value["itemid"] = tonumber( value["itemid"] );
-                            end;
-                        end;
-                    end;
-                end;
-            end;
-
-            -- Upgrade to version 2.0
-            if ( UBI_Options["version"] < "2.0" ) then
-                if ( not UBI_Options["show_highlight"] ) then
-                    UBI_Options["show_highlight"] = true;
-                end;
-            end;
-
-            -- Upgrade to version 3.1
-            if ( UBI_Options["version"] < "3.1" ) then
-                for key, value in pairs( UBI_Data[UBI_REALM] ) do
-                    if ( key ~= "Guildbank" ) then
-                        if ( not value["Money"]["Currencies"] ) then
-                            value["Money"]["Currencies"] = {};
-                        end;
-                    end;
-                end;
-            end;
-
-            -- Upgrade to version 3.6
-            if ( UBI_Options["version"] < "3.6" ) then
-                UBI_Options["guildbank_visit"] = nil;
-                UBI_Options["bank_visit"] = nil;
-                UBI_Options["mail_visit"] = nil;
-                UBI_Options["show_tooltip"] = true;
-            end;
-
-            -- Upgrade to version 3.7
-            if ( UBI_Options["version"] < "3.7" ) then
-                for key, value in pairs( UBI_Data[UBI_REALM] ) do
-                    if ( key ~= "Guildbank" ) then
-                        if ( not value["Money"]["Currencies"] ) then
-                            value["Money"]["Currencies"] = {};
-                        end;
-                    end;
-                end;
-            end;
-
-            -- Upgrade to version 4.4
-            if ( UBI_Options["version"] < "4.4" ) then
-                for key, value in pairs( UBI_Data[UBI_REALM] ) do
-                    if ( key ~= "Guildbank" ) then
-                        if ( not value["Options"]["level"] ) then
-                            value["Options"]["level"] = "??";
-                        end;
-                        if ( not value["Options"]["class"] ) then
-                            value["Options"]["class"] = "??";
-                        end;
-                    end;
-                end;
-            end;
-
-            -- Upgrade to version 4.7
-            if ( UBI_Options["version"] < "4.7" ) then
-                for key, value in pairs( UBI_Data[UBI_REALM] ) do
-                    if ( key ~= "Guildbank" ) then
-                        for key, value in pairs( UBI_Data[UBI_REALM][key]["Items"] ) do
-                            value["keyring_count"] = nil;
-                            value["total"] = value["bag_count"] + value["bank_count"] + value["mailbox_count"] + value["equip_count"] + value["void_count"];
-                        end;
-                    end;
-                end;
-            end;
-
-            -- Upgrade to version 4.8
-            if ( UBI_Options["version"] < "4.8" ) then
-                if ( not UBI_Options["show_item_count"] ) then
-                    UBI_Options["show_item_count"] = true;
-                end;
-            end;
-
-            -- Upgrade to version 4.9
-            if ( UBI_Options["version"] < "4.9" ) then
-                for key, value in pairs( UBI_Data[UBI_REALM] ) do
-                    if ( key ~= "Guildbank" ) then
-                        -- Upgrade character data
-                        for key, value in pairs( value["Items"] ) do
-                            value["void_count"] = 0;
-                        end;
-                    else
-                        -- Upgrade guildbank data
-                        for key, value in pairs( value ) do
-                            for key, value in pairs( value["Items"] ) do
-                                value["void_count"] = 0;
-                            end;
-                        end;
-                    end;
-                end;
-            end;
-
             -- Upgrade to version 6.1
             if ( UBI_Options["version"] < "6.1" ) then
                 if ( not UBI_Options["track_gb_data"] ) then
@@ -342,7 +201,7 @@
         if ( type( visit ) == "table" ) then
             timediff = difftime( today, time( visit ) or today );
         else
-            timediff = difftime( today, visit or today ) 
+            timediff = difftime( today, visit or today )
         end;
 
         return floor( timediff / UBI_SEC_IN_DAY ), SecondsToTime( timediff );
@@ -942,7 +801,7 @@
 
                 -- Fix totalCount (only for actual characters)
                 if ( record.bag_count ) then
-                    record.total = record.bag_count + record.bank_count + record.mailbox_count + record.equip_count + ( record.void_count or 0 );
+                    record.total = record.bag_count + record.bank_count + record.mailbox_count + record.equip_count + ( record.void_count or 0 ) + ( record.reagent_count or 0 );
                 end;
 
                 -- Only apply filters when searching from then inventory frame
@@ -1276,7 +1135,7 @@
                         totalCount = totalCount + UBI_Items[itemId]["bag_count"] + UBI_Items[itemId]["bank_count"] + UBI_Items[itemId]["mailbox_count"] + UBI_Items[itemId]["equip_count"] + ( UBI_Items[itemId]["void_count"] or 0 ) + ( UBI_Items[itemId]["reagent_count"] or 0 );
                         spacerAdded = true;
                     end;
-    
+
                     -- Add info from current character if viewing data from an alt
                     if ( UBI_Items[itemId] and UBI_TooltipLocation and UBI_LocationList[UBI_FILTER_LOCATIONS].type ~= "current" ) then
                         -- Insert spacer if not already added
@@ -1284,13 +1143,13 @@
                             tooltip:AddLine( "|n" );
                             spacerAdded = true;
                         end;
-    
+
                         -- Add the count and icon for the current alt
                         totalCount = totalCount + UBI_Items[itemId].total;
                         tooltip:AddDoubleLine( UBI_PLAYER, UBI_Items[itemId].total );
                         tooltip:AddTexture( UBI_LOCATION_TEXTURE[7] );
                     end;
-    
+
                     -- Add information for alt characters
                     local UBI_Characters = UBI_Characters;
                     local record;
@@ -1302,19 +1161,19 @@
                                     tooltip:AddLine( "|n" );
                                     spacerAdded = true;
                                 end;
-    
+
                                 -- Fix total
                                 record = UBI_Data[UBI_REALM][value]["Items"][itemId];
                                 record.total = record.bag_count + record.bank_count + record.mailbox_count + record.equip_count + (record.void_count or 0) + (record.reagent_count or 0);
-                                totalCount = totalCount + record.total;
-    
+                                totalCount = totalCount + ( record.total or 0 );
+
                                 -- Add the count and icon for the current alt
                                 tooltip:AddDoubleLine( value, record.total );
                                 tooltip:AddTexture( UBI_LOCATION_TEXTURE[7] );
                             end;
                         end;
                     end;
-    
+
                     -- Add information for guildbanks
                     local UBI_Guildbanks = UBI_Guildbanks;
                     for key, value in pairs( UBI_Guildbanks ) do
@@ -1324,19 +1183,19 @@
                                 tooltip:AddLine( "|n" );
                                 spacerAdded = true;
                             end;
-    
+
                             -- Add the count and icon for the current guildbank
                             totalCount = totalCount + UBI_Guildbank[value]["Items"][itemId].total;
                             tooltip:AddDoubleLine( C_GREY..value..C_CLOSE, C_GREY..UBI_Guildbank[value]["Items"][itemId].total..C_CLOSE );
                             tooltip:AddTexture( UBI_LOCATION_TEXTURE[7] );
                         end;
                     end;
-    
+
                     -- Add total itemcount
                     if ( totalCount > 0 ) then
                         tooltip:AddDoubleLine( " ", C_YELLOW..UBI_SIGMA_ICON.." "..totalCount..C_CLOSE );
                     end;
-                
+
                 end;
             end;
         end;
@@ -1841,7 +1700,7 @@
                                                                 ["subtype"] = value.subtype or itemSubType or UBI_ITEM_UNCACHED,
                                                                 ["total"] = value.count };
 
-            if ( value.extra ) then 
+            if ( value.extra ) then
             end;
         end;
 
@@ -2075,7 +1934,7 @@
 
         -- Set faction again, to allow for faction change
         UBI_Options["faction"] = UBI_FACTION;
-        
+
         -- Build list of alts and guildbanks
         UberInventory_GetAlts();
         UberInventory_GetGuildbanks();
@@ -2184,7 +2043,7 @@
         UBI_Mail_Transfer.to = to;
         UBI_Mail_Transfer.cash = GetSendMailMoney();
         UBI_Mail_Transfer.items = {};
-        
+
         for i = 1, ATTACHMENTS_MAX_SEND do
             local itemName, itemTexture, itemCount = GetSendMailItem( i );
             if ( itemName ) then
@@ -2414,7 +2273,7 @@
 
         -- Guildbank closed (send guildbank data using the chat system)
         if ( event == "GUILDBANKFRAME_CLOSED" and UBI_GUILDBANK_OPENED and UBI_Options["track_gb_data"] ) then
-            -- Store guildbank cash            
+            -- Store guildbank cash
             UBI_Guildbank[UBI_GUILD]["Cash"] = GetGuildBankMoney();
 
             -- Start sending guildbank data
@@ -2509,7 +2368,7 @@
 
             -- If bank is open rescan item
             if ( ( arg1 == BANK_CONTAINER) or ( arg1 == REAGENTBANK_CONTAINER ) or ( arg1 >= 5 and arg1 <= 11 ) ) then UberInventory_Save_Bank(); end;
-            
+
             -- If guildbank is open rescan it
             if ( UBI_GUILDBANK_OPENED ) then UberInventory_Save_Guildbank( 'UBI_RESCAN_GUILDBANK' ); end;
             return;
@@ -2921,6 +2780,7 @@
         _G[ button.."ItemName" ]:SetText( record["name"] );
         _G[ button.."ItemName" ]:SetTextColor( itemcolor.r, itemcolor.g, itemcolor.b );
 
+
         -- Set item count
         if ( UBI_LocationList[UBI_FILTER_LOCATIONS].type == "current" or UBI_LocationList[UBI_FILTER_LOCATIONS].type == "character" ) then
             _G[ button.."ItemCount" ]:SetFormattedText( UBI_ITEM_COUNT, totalCount, bagCount, bankCount, mailCount, equipCount, voidCount, reagentCount );
@@ -3004,7 +2864,7 @@
 
         -- Get current offset
         local offset = FauxScrollFrame_GetOffset( UberInventoryFrameScroll ) or 0;
-        
+
         -- Update scrollbars (reset scroll position when needed)
         if ( offset > ceil( (#UBI_Sorted-UBI_NUM_ITEMBUTTONS) / 2 ) ) then
             UberInventory_ScrollToTop();

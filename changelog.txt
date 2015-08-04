@@ -1,3 +1,8 @@
+Version 7.3
+- Added the new currencies (Oil and Seal of Inevitable Fate)
+- Fixed issue with total counts being displayed as zero within the main UberInventory window and search results
+- Removed old code
+
 Version 7.2
 - Changed: Updated for 6.2
 
@@ -341,7 +346,7 @@ Version 0.5 - March 26, 2008
 - Changed: Updated TOC for WoW 2.4
 - Changed: Alts and guildbanks are sorted alphabetically
 - Changed: Some APIs changed to use latest WoW APIs (2.4)
-- Added: Command to remove character and guildbank date from the UberInventory data storage (/ubi remguild|remchar <name>) 
+- Added: Command to remove character and guildbank date from the UberInventory data storage (/ubi remguild|remchar <name>)
 
 Version 0.4 - March 19, 2008
 - Fixed: Data received for guildbank caused data to get corrupted

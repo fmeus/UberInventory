@@ -72,9 +72,9 @@
     UBI_ITEM_SELL = "Sell: ";
     UBI_ITEM_BUY = "Buy: ";
     UBI_ITEM_BUYOUT = "Auction Buyout: ";
-    UBI_ITEM_RECIPE_SOLD_BY = "Sold for %s by"; 
-    UBI_ITEM_RECIPE_REWARD_FROM = "Reward from quest"; 
-    UBI_ITEM_RECIPE_DROP_BY = "Dropped by"; 
+    UBI_ITEM_RECIPE_SOLD_BY = "Sold for %s by";
+    UBI_ITEM_RECIPE_REWARD_FROM = "Reward from quest";
+    UBI_ITEM_RECIPE_DROP_BY = "Dropped by";
     UBI_ITEM_COUNT = "Count: %d (%d / %d / %d / %d / %d / %d)";
     UBI_ITEM_COUNT_SINGLE = "Count: %d";
     UBI_ITEM_SEARCH = "Invertory search for '%s'";
@@ -114,13 +114,13 @@
     UBI_OPTION_SHOWTOOLTIP_TIP = "If checked information will be added to item tooltips|n|n";
     UBI_OPTION_SELLPRICES = "Show sell prices";
     UBI_OPTION_SELLPRICES_TIP = "If checked you will be able to see sell prices (if collected) even when you are not at a merchant.";
-    UBI_OPTION_RECIPEPRICES = "Show recipe buying prices"; 
+    UBI_OPTION_RECIPEPRICES = "Show recipe buying prices";
     UBI_OPTION_RECIPEPRICES_TIP = "If checked you will be able to see prices for recipes avialable from merchants.";
-    UBI_OPTION_QUESTREWARD = "Show recipe quest reward info"; 
+    UBI_OPTION_QUESTREWARD = "Show recipe quest reward info";
     UBI_OPTION_QUESTREWARD_TIP = "If checked you will be able to see whether or not a recipe is obtainable from a quest.";
-    UBI_OPTION_RECIPEDROP = "Show recipe drop info"; 
+    UBI_OPTION_RECIPEDROP = "Show recipe drop info";
     UBI_OPTION_RECIPEDROP_TIP = "If checked you will be able to see which mobs drop a recipe.";
-    UBI_OPTION_ITEMCOUNT = "Show item count info"; 
+    UBI_OPTION_ITEMCOUNT = "Show item count info";
     UBI_OPTION_ITEMCOUNT_TIP = "If checked item counts will be shown within item tooltips";
     UBI_OPTION_SHOWMAP = "Show minimap icon";
     UBI_OPTION_SHOWMAP_TIP = "If checked an icon will be show at the border of the minimap.";
@@ -166,7 +166,7 @@
     UBI_TOKEN_HONOR_POINTS = "Honor Points";
     UBI_TOKEN_JUSTICE_POINTS = "Justice Points"; -- New PvE currency
     UBI_TOKEN_CONQUEST_POINTS = "Conquest Points";
-    UBI_TOKEN_JEWELCRAFTING = "Illustrious Jewelcrafter's Token"; 
+    UBI_TOKEN_JEWELCRAFTING = "Illustrious Jewelcrafter's Token";
     UBI_TOKEN_TOLBARAD = "Tol Barad Commendation";
     UBI_TOKEN_VALOR_POINTS = "Valor Points";
     UBI_TOKEN_WORLDTREE = "Mark of the World Tree";
@@ -185,6 +185,8 @@
     UBI_TOKEN_APEXIS_CRYSTAL = "Apexis Crystal";
     UBI_TOKEN_GARRISON_RESOURCE = "Garrison Resources";
     UBI_TOKEN_SEAL_OF_TEMPERED_FATE = "Seal of Tempered Fate";
+    UBI_TOKEN_OIL, icon = 'Oil';
+    UBI_TOKEN_SEAL_OF_INEVITABLE_FATE = 'Seal of Inevitable Fate';
 
     -- Miscellaneous
     UBI_MOVEMENT = "Hold down shift key to move frame to a different location";
