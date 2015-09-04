@@ -47,6 +47,7 @@
         { id=-3, name = LFG_TYPE_DUNGEON.." & "..LFG_TYPE_RAID, force = false },
         { id=615, name = UBI_TOKEN_ESSENCE_OF_DEATHWING, icon = "inv_elemental_primal_shadow", force = true, texcoord = { 0, 1, 0, 1 } }, -- Mote of Darkness
         { id=395, name = UBI_TOKEN_JUSTICE_POINTS, icon = "pvecurrency-justice", force = true, texcoord = { 0, 1, 0, 1 } }, -- Justice Points
+        { id=1166, name = UBI_TOKEN_TIMEWARPED_BADGE, icon = "pvecurrency-justice", force = true, texcoord = { 0, 1, 0, 1 } }, -- Timewarped Badge
         { id=614, name = UBI_TOKEN_MOTE_OF_DARKNESS, icon = "spell_shadow_sealofkings", force = true, texcoord = { 0, 1, 0, 1 } }, -- Mote of Darkness
         { id=396, name = UBI_TOKEN_VALOR_POINTS, icon = "pvecurrency-valor", force = true, texcoord = { 0, 1, 0, 1 } }, -- Valor Points
 

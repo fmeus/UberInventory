@@ -187,6 +187,7 @@
     UBI_TOKEN_SEAL_OF_TEMPERED_FATE = "Seal of Tempered Fate";
     UBI_TOKEN_OIL, icon = 'Oil';
     UBI_TOKEN_SEAL_OF_INEVITABLE_FATE = 'Seal of Inevitable Fate';
+    UBI_TOKEN_TIMEWARPED_BADGE = "Timewarped Badge";
 
     -- Miscellaneous
     UBI_MOVEMENT = "Hold down shift key to move frame to a different location";

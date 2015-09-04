@@ -1,3 +1,6 @@
+Version 7.4
+- Added currency Timewarped Badge
+
 Version 7.3
 - Added the new currencies (Oil and Seal of Inevitable Fate)
 - Fixed issue with total counts being displayed as zero within the main UberInventory window and search results
