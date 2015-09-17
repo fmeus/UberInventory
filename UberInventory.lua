@@ -67,6 +67,7 @@
         -- Warlords of Draenor
         { id=-6, name = EXPANSION_NAME5, force = false },
         { id=823, name = UBI_TOKEN_APEXIS_CRYSTAL, icon = "inv_apexis_draenor", force = true, texcoord = { 0, 1, 0, 1 } }, -- Apexis Crystal
+        { id=944, name = UBI_TOKEN_ARTIFACT_FRAGMENT, icon ="inv_ashran_artifact", force = true, texcoord = { 0, 1, 0, 1 } }, -- Artifact Fragment
         { id=824, name = UBI_TOKEN_GARRISON_RESOURCE, icon = "inv_garrison_resource", force = true, texcoord = { 0, 1, 0, 1 } }, -- Garrison Resources
         { id=994, name = UBI_TOKEN_SEAL_OF_TEMPERED_FATE, icon = "ability_animusorbs", force = true, texcoord = { 0, 1, 0, 1 } }, -- Seal of Tempered Fate
         { id=1101, name = UBI_TOKEN_OIL, icon = "garrison_oil", force = true, texcoord = { 0, 1, 0, 1 } }, -- Oil

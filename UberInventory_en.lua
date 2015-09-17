@@ -183,6 +183,7 @@
     UBI_TOKEN_WARFORGED_SEAL = "Warforged Seal";
     UBI_TOKEN_MOGU_RUNE_OF_FATE = "Mogu Rune of Fate";
     UBI_TOKEN_APEXIS_CRYSTAL = "Apexis Crystal";
+    UBI_TOKEN_ARTIFACT_FRAGMENT = "Artifact Fragment";
     UBI_TOKEN_GARRISON_RESOURCE = "Garrison Resources";
     UBI_TOKEN_SEAL_OF_TEMPERED_FATE = "Seal of Tempered Fate";
     UBI_TOKEN_OIL, icon = 'Oil';

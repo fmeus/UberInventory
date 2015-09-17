@@ -1,3 +1,6 @@
+Version 7.5
+- Added currency Artifact Fragment
+
 Version 7.4
 - Added currency Timewarped Badge
 
