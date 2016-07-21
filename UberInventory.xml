@@ -1035,6 +1035,7 @@
                 <Scripts>
                     <OnClick>
                         InterfaceOptionsFrame_OpenToCategory( UberInventoryOptionsFrame );
+                        InterfaceOptionsFrame_OpenToCategory( UberInventoryOptionsFrame );
                     </OnClick>
                 </Scripts>
             </Button>
