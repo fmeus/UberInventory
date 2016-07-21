@@ -23,48 +23,46 @@
     local UBI_Currencies = {
         --Player vs Player
         { id=-1, name = PLAYER_V_PLAYER, force = false },
-        { id=390, name = UBI_TOKEN_CONQUEST_POINTS, icon = "PVPCurrency-Conquest-"..UBI_FACTION, force = true, texcoord = { 0, 1, 0, 1 } }, -- Conquest Points
-        { id=392, name = UBI_TOKEN_HONOR_POINTS, icon = "PVPCurrency-Honor-"..UBI_FACTION, force = true, texcoord = { 0, 1, 0, 1 } }, -- Honor Points
-        { id=391, name = UBI_TOKEN_TOLBARAD, icon = "achievement_zone_tolbarad", force = true, texcoord = { 0, 1, 0, 1 } }, -- Tol Barad Commendation
+        { id=391, force = true }, -- Tol Barad Commendation
 
         -- Miscellaneous
         { id=-2, name = MISCELLANEOUS, force = false },
-        { id=241, name = UBI_TOKEN_CHAMPIONS_SEAL, icon = "Ability_Paladin_ArtofWar", force = true, texcoord = { 0, 1, 0, 1 } }, -- Champion's Seal
-        { id=61, name = UBI_TOKEN_JEWELCRAFTING_DALARAN, icon = "INV_Misc_Gem_Variety_01", force = true, texcoord = { 0, 1, 0, 1 } }, -- Dalaran Jewelcrafting Token
-        { id=515, name = UBI_TOKEN_DARKMOONPRIZETICKET, icon = "inv_misc_ticket_darkmoon_01", force = true, texcoord = { 0, 1, 0, 1 } }, -- Darkmoon Prize Ticket
-        { id=81, name = UBI_TOKEN_EPICURIAN, icon = "INV_Misc_Ribbon_01", force = true, texcoord = { 0, 1, 0, 1 } }, -- Epicurean's Award
-        { id=402, name = UBI_TOKEN_IRONPAW, icon = "inv_relics_idolofferocity", force = true, texcoord = { 0, 1, 0, 1 } }, -- Ironpaw Token
-        { id=416, name = UBI_TOKEN_WORLDTREE, icon = "INV_Misc_markoftheworldtree", force = true, texcoord = { 0, 1, 0, 1 } }, -- Mark of the World Tree
+        { id=241, force = true }, -- Champion's Seal
+        { id=61, force = true }, -- Dalaran Jewelcrafting Token
+        { id=515, force = true }, -- Darkmoon Prize Ticket
+        { id=81, force = true }, -- Epicurean's Award
+        { id=402, force = true }, -- Ironpaw Token
+        { id=416, force = true }, -- Mark of the World Tree
 
         -- Dungeon and Raid
         { id=-3, name = LFG_TYPE_DUNGEON.." & "..LFG_TYPE_RAID, force = false },
-        { id=615, name = UBI_TOKEN_ESSENCE_OF_DEATHWING, icon = "inv_elemental_primal_shadow", force = true, texcoord = { 0, 1, 0, 1 } }, -- Mote of Darkness
-        { id=395, name = UBI_TOKEN_JUSTICE_POINTS, icon = "pvecurrency-justice", force = true, texcoord = { 0, 1, 0, 1 } }, -- Justice Points
-        { id=1166, name = UBI_TOKEN_TIMEWARPED_BADGE, icon = "pvecurrency-justice", force = true, texcoord = { 0, 1, 0, 1 } }, -- Timewarped Badge
-        { id=614, name = UBI_TOKEN_MOTE_OF_DARKNESS, icon = "spell_shadow_sealofkings", force = true, texcoord = { 0, 1, 0, 1 } }, -- Mote of Darkness
-        { id=396, name = UBI_TOKEN_VALOR_POINTS, icon = "pvecurrency-valor", force = true, texcoord = { 0, 1, 0, 1 } }, -- Valor Points
+        { id=615, force = true }, -- Mote of Darkness
+        { id=395, force = true }, -- Justice Points
+        { id=1166, force = true }, -- Timewarped Badge
+        { id=614, force = true }, -- Mote of Darkness
+        { id=396, force = true }, -- Valor Points
 
         -- Cataclysm
         { id=-4, name = EXPANSION_NAME3, force = false },
-        { id=361, name = UBI_TOKEN_ILLUSTRIOUS_JEWELCRAFTING, icon = "inv_misc_token_argentdawn3", force = true, texcoord = { 0, 1, 0, 1 } }, -- Illustrious Jewelcrafter's Token
-        { id=698, name = UBI_TOKEN_ZEN_JEWELCRAFTING, icon = "trade_archaeology_titan_fragment", force = true, texcoord = { 0, 1, 0, 1 } }, -- Zen Jewelcrafter's Token
+        { id=361, force = true }, -- Illustrious Jewelcrafter's Token
+        { id=698, force = true }, -- Zen Jewelcrafter's Token
 
         -- Mist of Pandaria
         { id=-5, name = EXPANSION_NAME4, force = false },
-        { id=738, name = UBI_TOKEN_LESSER_CHARM, icon = "inv_misc_coin_18", force = true, texcoord = { 0, 1, 0, 1 } }, -- Lesser Charm of Good Fortune
-        { id=697, name = UBI_TOKEN_ELDER_CHARM, icon = "inv_misc_coin_17", force = true, texcoord = { 0, 1, 0, 1 } }, -- Elder Charm of Good Fortune
-        { id=777, name = UBI_TOKEN_TIMELESSCOIN, icon = "timelesscoin", force = true, texcoord = { 0, 1, 0, 1 } }, -- Timeless Coin
-        { id=776, name = UBI_TOKEN_WARFORGED_SEAL, icon = "inv_arcane_orb", force = true, texcoord = { 0, 1, 0, 1 } }, -- Warforged Seal
-        { id=752, name = UBI_TOKEN_MOGU_RUNE_OF_FATE, icon = "archaeology_5_0_mogucoin", force = true, texcoord = { 0, 1, 0, 1 } }, -- Mogu Rune of Fate
+        { id=738, force = true }, -- Lesser Charm of Good Fortune
+        { id=697, force = true }, -- Elder Charm of Good Fortune
+        { id=777, force = true }, -- Timeless Coin
+        { id=776, force = true }, -- Warforged Seal
+        { id=752, force = true }, -- Mogu Rune of Fate
 
         -- Warlords of Draenor
         { id=-6, name = EXPANSION_NAME5, force = false },
-        { id=823, name = UBI_TOKEN_APEXIS_CRYSTAL, icon = "inv_apexis_draenor", force = true, texcoord = { 0, 1, 0, 1 } }, -- Apexis Crystal
-        { id=944, name = UBI_TOKEN_ARTIFACT_FRAGMENT, icon ="inv_ashran_artifact", force = true, texcoord = { 0, 1, 0, 1 } }, -- Artifact Fragment
-        { id=824, name = UBI_TOKEN_GARRISON_RESOURCE, icon = "inv_garrison_resource", force = true, texcoord = { 0, 1, 0, 1 } }, -- Garrison Resources
-        { id=994, name = UBI_TOKEN_SEAL_OF_TEMPERED_FATE, icon = "ability_animusorbs", force = true, texcoord = { 0, 1, 0, 1 } }, -- Seal of Tempered Fate
-        { id=1101, name = UBI_TOKEN_OIL, icon = "garrison_oil", force = true, texcoord = { 0, 1, 0, 1 } }, -- Oil
-        { id=1129, name = UBI_TOKEN_SEAL_OF_INEVITABLE_FATE, icon = "achievement_battleground_templeofkotmogu_02_green", force = true, texcoord = { 0, 1, 0, 1 } }, -- Seal of Inevitable Fate
+        { id=823, force = true }, -- Apexis Crystal
+        { id=944, force = true }, -- Artifact Fragment
+        { id=824, force = true }, -- Garrison Resources
+        { id=994, force = true }, -- Seal of Tempered Fate
+        { id=1101, force = true }, -- Oil
+        { id=1129, force = true }, -- Seal of Inevitable Fate
     };
 
 -- Text and tooltips for checkbuttons
@@ -2972,7 +2970,7 @@
             button = _G[ "Token"..line ];
             if index <= length then
                 if ( tokenList[index].id > 0 ) then
-                     _G[ "Token"..line.."Icon" ]:SetTexture( "Interface\\Icons\\"..tokenList[index].icon );
+                     _G[ "Token"..line.."Icon" ]:SetTexture( tokenList[index].icon );
                      _G[ "Token"..line.."Icon" ]:Show();
                      if ( ( tokenData[tokenList[index].id] or 0 ) > 0 ) then
                          _G[ "Token"..line.."Name" ]:SetTextColor( 1.0, 1.0, 1.0 );
