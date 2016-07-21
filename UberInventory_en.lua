@@ -158,37 +158,5 @@
     BINDING_NAME_TOGGLEUBI = "Toggle UberInventory";
     BINDING_NAME_TOGGLEUBITOOLTIP = "Toggle tooltip ";
 
-    -- Currencies
-    UBI_TOKEN_CHAMPIONS_SEAL = "Champion's Seal";
-    UBI_TOKEN_COOKING = "Dalaran Cooking Award";
-    UBI_TOKEN_CHEFS_AWARD = "Chef's Award";
-    UBI_TOKEN_JEWELCRAFTING_DALARAN = "Dalaran Jewelcrafter's Token";
-    UBI_TOKEN_HONOR_POINTS = "Honor Points";
-    UBI_TOKEN_JUSTICE_POINTS = "Justice Points"; -- New PvE currency
-    UBI_TOKEN_CONQUEST_POINTS = "Conquest Points";
-    UBI_TOKEN_JEWELCRAFTING = "Illustrious Jewelcrafter's Token";
-    UBI_TOKEN_TOLBARAD = "Tol Barad Commendation";
-    UBI_TOKEN_VALOR_POINTS = "Valor Points";
-    UBI_TOKEN_WORLDTREE = "Mark of the World Tree";
-    UBI_TOKEN_DARKMOONPRIZETICKET = "Darkmoon Prize Ticket";
-    UBI_TOKEN_EPICURIAN = "Epicurean's Award";
-    UBI_TOKEN_IRONPAW = "Ironpaw Token";
-    UBI_TOKEN_ESSENCE_OF_DEATHWING = "Essence of Corrupted Deathwing";
-    UBI_TOKEN_MOTE_OF_DARKNESS = "Mote of Darkness";
-    UBI_TOKEN_ILLUSTRIOUS_JEWELCRAFTING = "Illustrious Jewelcrafter's Token";
-    UBI_TOKEN_ZEN_JEWELCRAFTING = "Zen Jewelcrafter's Token";
-    UBI_TOKEN_ELDER_CHARM = "Elder Charm of Good Fortune";
-    UBI_TOKEN_LESSER_CHARM = "Lesser Charm of Good Fortune";
-    UBI_TOKEN_TIMELESSCOIN = "Timeless Coin";
-    UBI_TOKEN_WARFORGED_SEAL = "Warforged Seal";
-    UBI_TOKEN_MOGU_RUNE_OF_FATE = "Mogu Rune of Fate";
-    UBI_TOKEN_APEXIS_CRYSTAL = "Apexis Crystal";
-    UBI_TOKEN_ARTIFACT_FRAGMENT = "Artifact Fragment";
-    UBI_TOKEN_GARRISON_RESOURCE = "Garrison Resources";
-    UBI_TOKEN_SEAL_OF_TEMPERED_FATE = "Seal of Tempered Fate";
-    UBI_TOKEN_OIL, icon = 'Oil';
-    UBI_TOKEN_SEAL_OF_INEVITABLE_FATE = 'Seal of Inevitable Fate';
-    UBI_TOKEN_TIMEWARPED_BADGE = "Timewarped Badge";
-
     -- Miscellaneous
     UBI_MOVEMENT = "Hold down shift key to move frame to a different location";
