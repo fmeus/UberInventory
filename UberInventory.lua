@@ -239,6 +239,7 @@
         for key, value in pairs( UBI_Currencies ) do
             if ( value.id > 0 ) then
                 local name, amount, icon = GetCurrencyInfo( value.id );
+                value.name, value.icon = name, icon;
                 UBI_Money["Currencies"][value.id] = amount or 0;
             end;
         end;
@@ -598,11 +599,6 @@
                          notCheckable = 1,
                          func = UberInventory_Quality_OnClick,
                          colorCode = ITEM_QUALITY_COLORS[key-2].hex };
-
-            -- Correct color for 'All qualities'
-            if (key-2 == -1) then
-                UBI_Item.colorCode = ITEM_QUALITY_COLORS[1].hex;
-            end;
 
             -- Add item to dropdown
             UIDropDownMenu_AddButton( UBI_Item );
