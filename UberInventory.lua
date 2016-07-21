@@ -5,13 +5,6 @@
         So now where ever you are in the World of Warcraft you can
         get an overview of all your loot.
 
-    Download:
-        UberInventory - http://fmeus.wordpress.com/uberinventory/
-
-    Contact:
-        For questions, bug reports visit the website or send an email
-        to the following address: wowaddon@xs4all.nl
-
     Dependencies:
         None
 
