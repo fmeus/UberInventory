@@ -110,7 +110,7 @@
     UBI_PROCESSING_GB = false;         -- Currently processing/saving GB data
     UBI_MINIMAP_ANGLE = nil;           -- Current angle for the minimap
     UBI_ACTIVE = true;
-    UBI_BATTLEPET_CLASS = select( 11, GetAuctionItemClasses() );
+    UBI_BATTLEPET_CLASS = GetItemClassInfo(17);
 
 -- Alts and Guildbanks
     UBI_Characters = {};               -- Used for list of alt characters
