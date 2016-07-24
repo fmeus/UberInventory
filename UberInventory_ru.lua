@@ -53,9 +53,9 @@ if (GetLocale()=="ruRU") then
     "Почта",
     "Одето" };
     
-    -- Dropdown box classes (result of GetAuctionItemClasses is already localized)
-    UBI_CLASSES = { "Все Классы", GetAuctionItemClasses() };
-    
+    -- Dropdown box classes
+    UBI_ALL_CLASSES = "Все Классы";
+
     -- Button strings
     UBI_OPTIONS_BUTTON = "Настройки";
     UBI_CLOSE_BUTTON = "Закрыть";

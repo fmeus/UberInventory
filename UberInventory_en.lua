@@ -59,8 +59,8 @@
                       "Void Storage",
                       "Reagents Bank" };
 
-    -- Dropdown box classes (result of GetAuctionItemClasses is already localized)
-    UBI_CLASSES = { "All classes", GetAuctionItemClasses() };
+    -- Dropdown box classes
+    UBI_ALL_CLASSES = "All classes";
 
     -- Button strings
     UBI_OPTIONS_BUTTON = "Options";

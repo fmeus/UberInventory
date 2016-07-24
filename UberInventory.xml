@@ -749,7 +749,7 @@
                         UIDropDownMenu_Initialize( self, UberInventory_Classes_Init );
 
                         -- By default select first one from the list
-                        UIDropDownMenu_SetText( self, UBI_CLASSES[UBI_FILTER_CLASSES] );
+                        UIDropDownMenu_SetText( self, UBI_CLASSES[UBI_FILTER_CLASSES].name );
 
                         -- Set width
                         UIDropDownMenu_SetWidth( self, 120 );

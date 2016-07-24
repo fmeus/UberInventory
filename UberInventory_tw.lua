@@ -54,8 +54,8 @@ if (GetLocale()=="zhTW") then
                       "信箱",
                       "已裝備" };
 
-    -- Dropdown box classes (result of GetAuctionItemClasses is already localized)
-    UBI_CLASSES = { "全部", GetAuctionItemClasses() };
+    -- Dropdown box classes
+    UBI_ALL_CLASSES = "全部";
 
     -- Button strings
     UBI_OPTIONS_BUTTON = "選項";

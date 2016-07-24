@@ -19,6 +19,153 @@
     local floor, ceil, abs, tonumber = math.floor, math.ceil, math.abs, tonumber;
     local pairs, tinsert, tsort, wipe = pairs, table.insert, table.sort, wipe;
 
+-- Classes structure (used to be provided by GetAuctionItemClasses and GetAuctionItemSubClasses)
+    UBI_CLASSES = { { id = 1, name = UBI_ALL_CLASSES, childs = {} }, 
+                    -- Weapons
+                    { id = 2, name = GetItemClassInfo(2)
+                    , childs = { AUCTION_SUBCATEGORY_ONE_HANDED
+                               , AUCTION_SUBCATEGORY_TWO_HANDED
+                               , AUCTION_SUBCATEGORY_RANGED
+                               , AUCTION_SUBCATEGORY_MISCELLANEOUS
+                               , AUCTION_SUBCATEGORY_OTHER
+                    } },
+                    -- Armor
+                    { id = 3, name = GetItemClassInfo(4)
+                    , childs = { GetItemSubClassInfo(4, LE_ITEM_ARMOR_PLATE)
+                               , GetItemSubClassInfo(4, LE_ITEM_ARMOR_MAIL)
+                               , GetItemSubClassInfo(4, LE_ITEM_ARMOR_LEATHER)
+                               , GetItemSubClassInfo(4, LE_ITEM_ARMOR_CLOTH)
+                               , GetItemSubClassInfo(4, LE_ITEM_ARMOR_GENERIC)
+                               , GetItemSubClassInfo(4, LE_ITEM_ARMOR_COSMETIC)
+                    } },
+                    -- Container
+                    { id = 4, name = GetItemClassInfo(1)
+                    , childs = { GetItemSubClassInfo(1,0)
+                               , GetItemSubClassInfo(1,1)
+                               , GetItemSubClassInfo(1,2)
+                               , GetItemSubClassInfo(1,3)
+                               , GetItemSubClassInfo(1,4)
+                               , GetItemSubClassInfo(1,5)
+                               , GetItemSubClassInfo(1,6)
+                               , GetItemSubClassInfo(1,7)
+                               , GetItemSubClassInfo(1,8)
+                               , GetItemSubClassInfo(1,9)
+                               , GetItemSubClassInfo(1,10)
+                    } },
+                    -- Gem
+                    { id = 5, name = GetItemClassInfo(3)
+                    , childs = { GetItemSubClassInfo(3,0)
+                               , GetItemSubClassInfo(3,1)
+                               , GetItemSubClassInfo(3,2)
+                               , GetItemSubClassInfo(3,3)
+                               , GetItemSubClassInfo(3,4)
+                               , GetItemSubClassInfo(3,5)
+                               , GetItemSubClassInfo(3,6)
+                               , GetItemSubClassInfo(3,7)
+                               , GetItemSubClassInfo(3,8)
+                               , GetItemSubClassInfo(3,9)
+                               , GetItemSubClassInfo(3,10)
+                               , GetItemSubClassInfo(3,11)
+                    } },
+                    -- Item Enhancement
+                    { id = 6, name = GetItemClassInfo(8)
+                    , childs = { GetItemSubClassInfo(8,0)
+                               , GetItemSubClassInfo(8,1)
+                               , GetItemSubClassInfo(8,2)
+                               , GetItemSubClassInfo(8,3)
+                               , GetItemSubClassInfo(8,4)
+                               , GetItemSubClassInfo(8,5)
+                               , GetItemSubClassInfo(8,6)
+                               , GetItemSubClassInfo(8,7)
+                               , GetItemSubClassInfo(8,8)
+                               , GetItemSubClassInfo(8,9)
+                               , GetItemSubClassInfo(8,10)
+                               , GetItemSubClassInfo(8,11)
+                               , GetItemSubClassInfo(8,12)
+                               , GetItemSubClassInfo(8,13)
+                    } },
+                    -- Consumable
+                    { id = 7, name = GetItemClassInfo(0)
+                    , childs = { GetItemSubClassInfo(0,0)
+                               , GetItemSubClassInfo(0,1)
+                               , GetItemSubClassInfo(0,2)
+                               , GetItemSubClassInfo(0,3)
+                               , GetItemSubClassInfo(0,5)
+                               , GetItemSubClassInfo(0,7)
+                               , GetItemSubClassInfo(0,9)
+                               , GetItemSubClassInfo(0,8)
+                    } },
+                    -- Glyph
+                    { id = 8, name = GetItemClassInfo(16)
+                    , childs = { GetItemSubClassInfo(16,1)
+                               , GetItemSubClassInfo(16,2)
+                               , GetItemSubClassInfo(16,3)
+                               , GetItemSubClassInfo(16,4)
+                               , GetItemSubClassInfo(16,5)
+                               , GetItemSubClassInfo(16,6)
+                               , GetItemSubClassInfo(16,7)
+                               , GetItemSubClassInfo(16,8)
+                               , GetItemSubClassInfo(16,9)
+                               , GetItemSubClassInfo(16,10)
+                               , GetItemSubClassInfo(16,11)
+                               , GetItemSubClassInfo(16,12)
+                    } },
+                    -- Trade Goods
+                    { id = 9, name = GetItemClassInfo(7)
+                    , childs = { GetItemSubClassInfo(7,5)
+                               , GetItemSubClassInfo(7,6)
+                               , GetItemSubClassInfo(7,7)
+                               , GetItemSubClassInfo(7,8)
+                               , GetItemSubClassInfo(7,9)
+                               , GetItemSubClassInfo(7,12)
+                               , GetItemSubClassInfo(7,16)
+                               , GetItemSubClassInfo(7,4)
+                               , GetItemSubClassInfo(7,1)
+                               , GetItemSubClassInfo(7,10)
+                               , GetItemSubClassInfo(7,11)
+                    } },
+                    -- Recipe
+                    { id = 10, name = GetItemClassInfo(9)
+                    , childs = { GetItemSubClassInfo(9,1)
+                               , GetItemSubClassInfo(9,2)
+                               , GetItemSubClassInfo(9,3)
+                               , GetItemSubClassInfo(9,4)
+                               , GetItemSubClassInfo(9,6)
+                               , GetItemSubClassInfo(9,8)
+                               , GetItemSubClassInfo(9,10)
+                               , GetItemSubClassInfo(9,11)
+                               , GetItemSubClassInfo(9,5)
+                               , GetItemSubClassInfo(9,7)
+                               , GetItemSubClassInfo(9,9)
+                               , GetItemSubClassInfo(9,0)
+                    } },
+                    -- Battle Pets
+                    { id = 11, name = GetItemClassInfo(17)
+                    , childs = { GetItemSubClassInfo(17,0)
+                               , GetItemSubClassInfo(17,1)
+                               , GetItemSubClassInfo(17,2)
+                               , GetItemSubClassInfo(17,3)
+                               , GetItemSubClassInfo(17,4)
+                               , GetItemSubClassInfo(17,5)
+                               , GetItemSubClassInfo(17,6)
+                               , GetItemSubClassInfo(17,7)
+                               , GetItemSubClassInfo(17,8)
+                               , GetItemSubClassInfo(17,9)
+                    } },
+                    -- Quest Items
+                    { id = 12, name = GetItemClassInfo(12)
+                    , childs = {} },
+                    -- Miscellaneous
+                    { id = 13, name = GetItemClassInfo(15)
+                    , childs = { GetItemSubClassInfo(15,0)
+                               , GetItemSubClassInfo(15,1)
+                               , GetItemSubClassInfo(15,2)
+                               , GetItemSubClassInfo(15,3)
+                               , GetItemSubClassInfo(15,4)
+                               , GetItemSubClassInfo(15,5)
+                    } },
+                  };
+
 -- Information on tokens
     local UBI_Currencies = {
         --Player vs Player
@@ -613,15 +760,12 @@
         -- Build structure for classes
         if ( UIDROPDOWNMENU_MENU_LEVEL == 1 ) then
             for key, value in pairs( UBI_CLASSES ) do
-                -- Determine subclasses
-                subclasses = { GetAuctionItemSubClasses( key-1 ) };
-
                 -- Set new item
-                UBI_Item = { text = value,
-                             value = { key, 0 },
+                UBI_Item = { text = value.name,
+                             value = {value.id, 0},
                              owner = UberInventoryFrameClassDropDown,
                              notCheckable = 1,
-                             hasArrow = #subclasses > 0,
+                             hasArrow = #(value.childs) > 0,
                              func = UberInventory_Classes_OnClick };
 
                 -- Add item to dropdown
@@ -632,19 +776,21 @@
         -- Build structure for subclasses
         if ( UIDROPDOWNMENU_MENU_LEVEL == 2 ) then
             -- Determine subclasses
-            subclasses = { GetAuctionItemSubClasses( UIDROPDOWNMENU_MENU_VALUE[1]-1 ) };
+            subclasses = UBI_CLASSES[UIDROPDOWNMENU_MENU_VALUE[1]].childs;
 
             for key, value in pairs( subclasses ) do
-                -- Set new tem
-                UBI_Item = { text = value,
-                             value = { UIDROPDOWNMENU_MENU_VALUE[1], key },
-                             owner = UberInventoryFrameClassDropDown,
-                             notCheckable = 1,
-                             func = UberInventory_Classes_OnClick
-                             };
+                if ( value ) then
+                    -- Set new tem
+                    UBI_Item = { text = value,
+                                 value = { UIDROPDOWNMENU_MENU_VALUE[1], key },
+                                 owner = UberInventoryFrameClassDropDown,
+                                 notCheckable = 1,
+                                 func = UberInventory_Classes_OnClick
+                                 };
 
-                -- Add item to dropdown
-                UIDropDownMenu_AddButton( UBI_Item, UIDROPDOWNMENU_MENU_LEVEL );
+                    -- Add item to dropdown
+                    UIDropDownMenu_AddButton( UBI_Item, UIDROPDOWNMENU_MENU_LEVEL );
+                end;
             end;
         end;
     end;
@@ -656,10 +802,9 @@
         UBI_FILTER_SUBCLASSES = self.value[2];
 
         -- Determine dropdown text
-        local infoText = UBI_CLASSES[UBI_FILTER_CLASSES];
+        local infoText = UBI_CLASSES[UBI_FILTER_CLASSES].name;
         if ( UBI_FILTER_SUBCLASSES > 0 ) then
-            local subclasses = { GetAuctionItemSubClasses( UBI_FILTER_CLASSES-1 ) };
-            infoText = infoText.." > "..subclasses[UBI_FILTER_SUBCLASSES];
+            infoText = infoText.." > "..UBI_CLASSES[UBI_FILTER_CLASSES].childs[UBI_FILTER_SUBCLASSES]
             HideDropDownMenu( 1 ); -- Collapse also the top level menu
         end;
 
@@ -811,13 +956,12 @@
                     end;
 
                     -- Filter on class
-                    if ( UBI_FILTER_CLASSES > 1 and record.type ~= UBI_CLASSES[UBI_FILTER_CLASSES] ) then
+                    if ( UBI_FILTER_CLASSES > 1 and record.type ~= UBI_CLASSES[UBI_FILTER_CLASSES].name ) then
                         include_item = false;
                     end;
 
                     -- Filter on subclass
-                    subclasses = { GetAuctionItemSubClasses( UBI_FILTER_CLASSES-1 ) };
-                    if ( UBI_FILTER_SUBCLASSES > 0 and record.subtype ~= subclasses[UBI_FILTER_SUBCLASSES] ) then
+                    if ( UBI_FILTER_SUBCLASSES > 0 and record.subtype ~= UBI_CLASSES[UBI_FILTER_CLASSES].childs[UBI_FILTER_SUBCLASSES] ) then
                         include_item = false;
                     end;
 
@@ -913,7 +1057,7 @@
         -- Reset dropdown for class
         UBI_FILTER_CLASSES = 1;
         UBI_FILTER_SUBCLASSES = 0;
-        UIDropDownMenu_SetText( UberInventoryFrameClassDropDown, UBI_CLASSES[UBI_FILTER_CLASSES] );
+        UIDropDownMenu_SetText( UberInventoryFrameClassDropDown, UBI_ALL_CLASSES );
 
         -- Reset usable items
         UBI_FILTER_USABLE = false;
@@ -2118,7 +2262,6 @@
     function UberInventory_OnEvent( self, event, ... )
         -- Get additional arguments
         local arg1, arg2, arg3, arg4 = ...;
-
 
         -- Load data from previous session
         if ( event == "ADDON_LOADED" and arg1 == "UberInventory" ) then
