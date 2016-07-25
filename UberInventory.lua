@@ -164,6 +164,9 @@
                                , GetItemSubClassInfo(15,4)
                                , GetItemSubClassInfo(15,5)
                     } },
+                    -- WoW Token
+                    { id = 14, name = GetItemClassInfo(18)
+                    , childs = {} },
                   };
 
 -- Information on tokens

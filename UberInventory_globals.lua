@@ -192,7 +192,8 @@
                     ITEM_QUALITY4_DESC,
                     ITEM_QUALITY5_DESC,
                     ITEM_QUALITY6_DESC,
-                    ITEM_QUALITY7_DESC };
+                    ITEM_QUALITY7_DESC,
+                    ITEM_QUALITY8_DESC };
     ITEM_QUALITY_COLORS[-1] = ITEM_QUALITY_COLORS[6]; -- Set color for 'All qualities'
 
 -- Location texture (Guildbank image dynamic based on faction)
