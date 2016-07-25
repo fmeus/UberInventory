@@ -820,19 +820,16 @@
         end;
 
         -- Get name of item
-        local itemName, _, itemQuality = GetItemInfo( itemid );
+        local itemName, itemLink, itemQuality = GetItemInfo( itemid );
 
         -- If the item has never been seen before, itemName will be nil
         if ( itemName == nil ) then
-            itemName = UBI_ITEM_UNCACHED;
-            itemQuality = 0;
+            local color = ITEM_QUALITY_COLORS[0].hex;
+            itemLink = color.."|Hitem:"..itemid..":0:0:0:0:0:0:0|h["..UBI_ITEM_UNCACHED.."]|h|r";
         end;
 
-        -- Determine item color
-        local color = ITEM_QUALITY_COLORS[itemQuality].hex;
-
         -- Return itemLink
-        return color.."|Hitem:"..itemid..":0:0:0:0:0:0:0|h["..itemName.."]|h|r";
+        return itemLink;
     end;
 
 -- Returns an Battlepet Link
