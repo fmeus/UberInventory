@@ -51,7 +51,7 @@
     UBI_USABLE_ITEMS_TIP = "When checked only usable items will be shown";
 
     -- Dropdown box Locations
-    UBI_ALL_LOCATIONS = "All items                ";
+    UBI_ALL_LOCATIONS = "All items                       ";
     UBI_LOCATIONS = { "Bags",
                       "Bank",
                       "Mailbox",
