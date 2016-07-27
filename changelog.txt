@@ -1,5 +1,6 @@
-Version 7.x
+Version 7.9
 - Added additional width to character dropdown list
+- Fixed issue with mailbox items
 
 Version 7.8
 - Updated for 7.0.3

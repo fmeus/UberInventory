@@ -1432,7 +1432,7 @@
             local _, itemId, enchantId, jewelId1, jewelId2, jewelId3, jewelId4, suffixId, uniqueId = strsplit( ":", itemLink );
 
             if ( location == "mailbox" ) then
-                _, _, itemCount = GetInboxItem( bagID, slotID );
+                _, _, _, itemCount = GetInboxItem( bagID, slotID );
             elseif ( location == "equip" ) then
                 itemCount = 1;
             else
@@ -1455,7 +1455,7 @@
             elseif ( location == "bag" ) then
                 bagCount = bagCount + itemCount;
             elseif ( location == "mailbox" ) then
-                mailCount = mailCount + itemCount;
+                mailCount = mailCount + ( itemCount or 0 );
             elseif ( location == "equip" ) then
                 equipCount = equipCount + itemCount;
             elseif ( location == "void" ) then
@@ -2158,10 +2158,10 @@
         UBI_Mail_Transfer.items = {};
 
         for attachID = 1, ATTACHMENTS_MAX_RECEIVE do
-            local itemName, itemTexture, itemCount = GetInboxItem( mailID, attachID );
+            local itemName, _, _, itemCount = GetInboxItem( mailID, attachID );
             if ( itemName ) then
                 local _, itemId = strsplit( ":", GetInboxItemLink( mailID, attachID ) );
-                UBI_Mail_Transfer.items[itemId] = ( UBI_Mail_Transfer.items[itemId] or 0 ) + itemCount;
+                UBI_Mail_Transfer.items[itemId] = ( UBI_Mail_Transfer.items[itemId] or 0 ) + ( itemCount or 0 );
             end;
         end;
 
