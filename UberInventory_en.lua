@@ -143,7 +143,7 @@
     UBI_OPTION_PRICES_VENDOR = "Vendor";
     UBI_OPTION_PRICES_VENDOR_TIP = "Item overview will display Vendor sell and buy prices";
     UBI_OPTION_PRICES_AH = "Auction House";
-    UBI_OPTION_PRICES_AH_TIP = "Item overview will display Auction House buyout prices from installed Auction House related Add Ons, like Auctioneer, AuctionLite, Auctionator, etc.";
+    UBI_OPTION_PRICES_AH_TIP = "Item overview will display Auction House buyout prices from installed Auction House related Add Ons, like AuctionLite, Auctionator, etc.";
 
     -- Section headings
     UBI_SECTION_GENERAL = "General Settings";

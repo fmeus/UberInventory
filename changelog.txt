@@ -1,6 +1,7 @@
 Version 7.9
 - Added additional width to character dropdown list
 - Fixed issue with mailbox items
+- Disabled support for Acutioneer
 
 Version 7.8
 - Updated for 7.0.3

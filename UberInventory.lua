@@ -417,9 +417,9 @@
         if ( type( GetAuctionBuyout ) == "function" ) then
             -- AuctionLite, Auctionator, AuctionaMaster
             buyoutPrice = GetAuctionBuyout( itemid  ) or 0;
-        elseif ( AucAdvanced ) then
-            -- Auctioneer
-            buyoutPrice = select( 6, AucAdvanced.Modules.Util.SimpleAuction.Private.GetItems( itemid ) ) or 0;
+        -- elseif ( AucAdvanced ) then
+        --     -- Auctioneer
+        --     buyoutPrice = select( 6, AucAdvanced.Modules.Util.SimpleAuction.Private.GetItems( itemid ) ) or 0;
         end;
 
         return buyPrice, sellPrice, buyoutPrice;
