@@ -171,48 +171,63 @@
 
 -- Information on tokens
     local UBI_Currencies = {
-        --Player vs Player
-        { id=-1, name = PLAYER_V_PLAYER, force = false },
-        { id=391, force = true }, -- Tol Barad Commendation
-
-        -- Miscellaneous
-        { id=-2, name = MISCELLANEOUS, force = false },
-        { id=241, force = true }, -- Champion's Seal
-        { id=61, force = true }, -- Dalaran Jewelcrafting Token
-        { id=515, force = true }, -- Darkmoon Prize Ticket
-        { id=81, force = true }, -- Epicurean's Award
-        { id=402, force = true }, -- Ironpaw Token
-        { id=416, force = true }, -- Mark of the World Tree
+        -- Legiom
+        { id=-1, name = EXPANSION_NAME6, force = false },
+        { id=1155, force = true }, -- Ancient Mana
+        { id=1275, force = true }, -- Curious Coin
+        { id=1226, force = true }, -- Nethershard
+        { id=1220, force = true }, -- Order Resources
+        { id=1273, force = true }, -- Seal of Broken Fate
+        { id=1154, force = true }, -- Shadowy Coins
+        { id=1149, force = true }, -- Sightless Eye
+        { id=1268, force = true }, -- Timeworn Artifact
 
         -- Dungeon and Raid
-        { id=-3, name = LFG_TYPE_DUNGEON.." & "..LFG_TYPE_RAID, force = false },
+        { id=-2, name = LFG_TYPE_DUNGEON.." & "..LFG_TYPE_RAID, force = false },
         { id=615, force = true }, -- Mote of Darkness
         { id=395, force = true }, -- Justice Points
         { id=1166, force = true }, -- Timewarped Badge
         { id=614, force = true }, -- Mote of Darkness
         { id=396, force = true }, -- Valor Points
 
-        -- Cataclysm
-        { id=-4, name = EXPANSION_NAME3, force = false },
-        { id=361, force = true }, -- Illustrious Jewelcrafter's Token
-        { id=698, force = true }, -- Zen Jewelcrafter's Token
+        -- Miscellaneous
+        { id=-3, name = MISCELLANEOUS, force = false },
+        { id=515, force = true }, -- Darkmoon Prize Ticket
+        { id=81, force = true }, -- Epicurean's Award
+        { id=402, force = true }, -- Ironpaw Token
+        { id=416, force = true }, -- Mark of the World Tree
 
-        -- Mist of Pandaria
-        { id=-5, name = EXPANSION_NAME4, force = false },
-        { id=738, force = true }, -- Lesser Charm of Good Fortune
-        { id=697, force = true }, -- Elder Charm of Good Fortune
-        { id=777, force = true }, -- Timeless Coin
-        { id=776, force = true }, -- Warforged Seal
-        { id=752, force = true }, -- Mogu Rune of Fate
+        -- Player vs Player
+        { id=-4, name = PLAYER_V_PLAYER, force = false },
+        { id=391, force = true }, -- Tol Barad Commendation
 
         -- Warlords of Draenor
-        { id=-6, name = EXPANSION_NAME5, force = false },
+        { id=-5, name = EXPANSION_NAME5, force = false },
         { id=823, force = true }, -- Apexis Crystal
         { id=944, force = true }, -- Artifact Fragment
         { id=824, force = true }, -- Garrison Resources
         { id=994, force = true }, -- Seal of Tempered Fate
         { id=1101, force = true }, -- Oil
         { id=1129, force = true }, -- Seal of Inevitable Fate
+
+        -- Mist of Pandaria
+        { id=-6, name = EXPANSION_NAME4, force = false },
+        { id=738, force = true }, -- Lesser Charm of Good Fortune
+        { id=697, force = true }, -- Elder Charm of Good Fortune
+        { id=777, force = true }, -- Timeless Coin
+        { id=776, force = true }, -- Warforged Seal
+        { id=752, force = true }, -- Mogu Rune of Fate
+
+        -- Cataclysm
+        { id=-7, name = EXPANSION_NAME3, force = false },
+        { id=361, force = true }, -- Illustrious Jewelcrafter's Token
+        { id=698, force = true }, -- Zen Jewelcrafter's Token
+
+        -- Wrath of the Lich King
+        { id=-8, name = EXPANSION_NAME2, force = false },
+        { id=241, force = true }, -- Champion's Seal
+        { id=61, force = true }, -- Dalaran Jewelcrafting Token
+
     };
 
 -- Text and tooltips for checkbuttons
