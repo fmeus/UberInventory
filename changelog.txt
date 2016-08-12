@@ -1,6 +1,6 @@
 Version 8.0
 - Added tracking for Legion currencies
-- Reorder currencies
+- Reordered currencies
 
 Version 7.9
 - Added additional width to character dropdown list
@@ -27,7 +27,7 @@ Version 7.2
 - Changed: Updated for 6.2
 
 Version 7.1
-- Changed: Moved Reagent Bank data to seperate group within UberInventory (required wipe of already stored data)
+- Changed: Moved Reagent Bank data to separate group within UberInventory (required wipe of already stored data)
 - Fixed: Tracking Voidstorage data
 
 Version 7.0
