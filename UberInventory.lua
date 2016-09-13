@@ -424,17 +424,20 @@
 -- Fetch item prices (buy, sell)
     function UberInventory_GetItemPrices( itemid )
         -- Initialize
-        local sellPrice = select( 11, GetItemInfo( itemid ) );
-        local buyPrice = UBI_Prices_Buy[itemid];
-        local buyoutPrice;
+        local buyoutPrice, buyPrice, sellPrice;
 
-        -- Get Auction House buyout price (if available)
-        if ( type( GetAuctionBuyout ) == "function" ) then
-            -- AuctionLite, Auctionator, AuctionaMaster
-            buyoutPrice = GetAuctionBuyout( itemid  ) or 0;
-        -- elseif ( AucAdvanced ) then
-        --     -- Auctioneer
-        --     buyoutPrice = select( 6, AucAdvanced.Modules.Util.SimpleAuction.Private.GetItems( itemid ) ) or 0;
+        if ( itemid ) then
+          local buyPrice = UBI_Prices_Buy[itemid];
+          local sellPrice = select( 11, GetItemInfo( itemid ) );
+
+          -- Get Auction House buyout price (if available)
+          if ( type( GetAuctionBuyout ) == "function" ) then
+              -- AuctionLite, Auctionator, AuctionaMaster
+              buyoutPrice = GetAuctionBuyout( itemid  ) or 0;
+          -- elseif ( AucAdvanced ) then
+          --     -- Auctioneer
+          --     buyoutPrice = select( 6, AucAdvanced.Modules.Util.SimpleAuction.Private.GetItems( itemid ) ) or 0;
+          end;
         end;
 
         return buyPrice, sellPrice, buyoutPrice;
